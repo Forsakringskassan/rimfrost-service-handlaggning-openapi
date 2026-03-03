@@ -1,3 +1,10 @@
+## 1.4.0 (2026-03-03)
+
+### Features
+
+- renaming kundbehovsflode -> handlaggning
+- renaming kundbehov -> yrkande
+
 ## 1.3.9 (2026-02-27)
 
 ### Bug Fixes
