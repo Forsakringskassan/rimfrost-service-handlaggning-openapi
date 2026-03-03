@@ -1,16 +1,16 @@
 openapi: 3.0.3
 info:
-  title: Kundbehovsflöde API
+  title: Handläggning API
   version: 1.0.1
-  description: API för att hämta och lagra kundbehovsflödesinfo, samt för att kicka igång nya kundbehov.
+  description: API för att hämta och lagra handläggningsinformation, samt för att kicka igång nya yrkanden.
 
 paths:
-  /kundbehovsflode:
+  /handlaggning:
     post:
-      tags: [KundbehovsflodeController]
-      operationId: postKundbehovsflode
-      summary: Skapa ett nytt kundbehovsflöde
-      description: Skapa ett nytt kundbehovsflöde för ett speficikt kundbehov
+      tags: [HandlaggningController]
+      operationId: postHandlaggning
+      summary: Skapa en ny handläggning
+      description: Skapa en ny handläggning för ett specifikt yrkande
       requestBody:
         required: true
         content:
@@ -18,54 +18,54 @@ paths:
             schema:
               type: object
               properties:
-                kundbehovId:
+                yrkandeId:
                   type: string
                   format: uuid
-                  description: Kundbehovets id
+                  description: Yrkandets id
               required:
-                - kundbehovId
+                - yrkandeId
       responses:
         '201':
-          description: Kundbehovsflöde skapat OK
+          description: Handläggning skapat OK
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/PostKundbehovsflodeResponse'
+                $ref: '#/components/schemas/PostHandlaggningResponse'
         '400':
-          description: Bad request (t.ex. felaktigt kundbehovId)
-  /kundbehovsflode/{kundbehovsflodeId}:
+          description: Bad request (t.ex. felaktigt yrkandeId)
+  /handlaggning/{handlaggningId}:
     get:
-      tags: [KundbehovsflodeController]
-      operationId: getKundbehovsflode
-      summary: Hämta kundbehovsflöde
-      description: Hämta kundbehovsflödet knytt till kundbehovsflodeId
+      tags: [HandlaggningController]
+      operationId: getHandlaggning
+      summary: Hämta handläggning
+      description: Hämta handläggning knutet till handlaggningId
       parameters:
-        - name: kundbehovsflodeId
+        - name: handlaggningId
           in: path
           required: true
-          description: Kundbehovsflödets id
+          description: Handläggningens id
           schema:
             type: string
             format: uuid
       responses:
         '200':
-          description: Kundbehovsflöde hämtat OK
+          description: Handläggning hämtat OK
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/GetKundbehovsflodeResponse'
+                $ref: '#/components/schemas/GetHandlaggningResponse'
         '400':
-          description: Bad request (t.ex. felaktigt kundbehovsflodeId)
+          description: Bad request (t.ex. felaktigt handlaggningId)
     put:
-      tags: [KundbehovsflodeController]
-      operationId: putKundbehovsflode
-      summary: Uppdatera kundbehovsflöde
-      description: Uppdatera kundbehovsflödet för kundbehovsflodeId
+      tags: [HandlaggningController]
+      operationId: putHandlaggning
+      summary: Uppdatera handläggning
+      description: Uppdatera handläggning för handlaggningId
       parameters:
-        - name: kundbehovsflodeId
+        - name: handlaggningId
           in: path
           required: true
-          description: Kundbehovsflödets id
+          description: Handläggningens id
           schema:
             type: string
             format: uuid
@@ -74,27 +74,27 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/PutKundbehovsflodeRequest'
+              $ref: '#/components/schemas/PutHandlaggningRequest'
       responses:
         '200':
-          description: Kundbehovsflöde uppdaterat OK
+          description: Handläggning uppdaterat OK
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/PutKundbehovsflodeResponse'
+                $ref: '#/components/schemas/PutHandlaggningResponse'
         '400':
-          description: Bad request (t.ex. felaktigt kundbehovsflodeId)
-  /kundbehovsflode/{kundbehovsflodeId}/ersattning:
+          description: Bad request (t.ex. felaktigt handlaggningId)
+  /handlaggning/{handlaggningId}/ersattning:
     patch:
-      tags: [KundbehovsflodeController]
-      operationId: patchKundbehovsflode
-      summary: Uppdatera beslutsutfall för kundbehovsflöde
-      description: Uppdatera beslutsutfall och avslagsanledning för ersättningar i ett kundbehovsflöde
+      tags: [HandlaggningController]
+      operationId: patchHandlaggning
+      summary: Uppdatera beslutsutfall för handläggning
+      description: Uppdatera beslutsutfall och avslagsanledning för ersättningar i en handläggning
       parameters:
-        - name: kundbehovsflodeId
+        - name: handlaggningId
           in: path
           required: true
-          description: Kundbehovsflödets id
+          description: Handläggningens id
           schema:
             type: string
             format: uuid
@@ -103,28 +103,28 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/PatchKundbehovsflodeRequest'
+              $ref: '#/components/schemas/PatchHandlaggningRequest'
       responses:
         '200':
-          description: Kundbehovsflöde uppdaterat OK
+          description: Handläggning uppdaterad OK
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/PatchKundbehovsflodeResponse'
+                $ref: '#/components/schemas/PatchHandlaggningResponse'
         '400':
-          description: Bad request (t.ex. felaktigt kundbehovsflodeId)
-  /kundbehov:
+          description: Bad request (t.ex. felaktigt handlaggningId)
+  /yrkande:
     post:
-      tags: [KundbehovController]
-      operationId: postKundbehov
-      summary: Skapar ett nytt kundbehov
-      description: Skapar ett nytt kundbehov
+      tags: [YrkandeController]
+      operationId: postYrkande
+      summary: Skapar ett nytt yrkande
+      description: Skapar ett nytt yrkande
       requestBody:
         required: true
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/PostKundbehovRequest'
+              $ref: '#/components/schemas/PostYrkandeRequest'
             example:
               persnr: "19900101-1234"
               formanstyp: "VAH"
@@ -133,88 +133,88 @@ paths:
                 slut: "2025-12-31T23:59:59Z"
       responses:
         '201':
-          description: Skapat kundbehov OK
+          description: Skapat yrkande OK
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/PostKundbehovResponse'
+                $ref: '#/components/schemas/PostYrkandeResponse'
 
 components:
   schemas:
-    Kundbehovsflode:
+    Handlaggning:
       type: object
-      description: Kundbehovsflöde, ärendeinstans
+      description: Handläggning, ärendeinstans
       properties:
         id:
           type: string
-          description: Kundbehovsflödets unika ID
+          description: Handläggningens unika ID
           format: uuid
-        kundbehov:
-          $ref: '#/components/schemas/Kundbehov'
+        yrkande:
+          $ref: '#/components/schemas/Yrkande'
         version:
           type: string
-          description: Kundbehovsflödets version
+          description: Handläggningens version
         processinstansId:
           type: string
           description: BPMN processinstansens unika ID
           format: uuid
         skapadTS:
           type: string
-          description: DateTime när kundbehovsflödet skapades, enligt ISO 8601
+          description: DateTime när handläggning skapades, enligt ISO 8601
           format: date-time
         avslutadTS:
           type: string
-          description: DateTime när kundbehovsflödet avslutades, enligt ISO 8601
+          description: DateTime när handläggning avslutades, enligt ISO 8601
           format: date-time
-        kundbehovsspecifikation:
-          $ref: '#/components/schemas/Kundbehovsflodespecifikation'
+        handlaggningspecifikation:
+          $ref: '#/components/schemas/Handlaggningspecifikation'
       required:
         - id
         - processinstansId
-        - kundbehov
-    Kundbehov:
+        - yrkande
+    Yrkande:
       type: object
-      description: Kundbehov
+      description: Yrkande
       properties:
         id:
           type: string
-          description: Kundbehovets unika ID
+          description: Yrkandets unika ID
           format: uuid
         formanstyp:
           type: string
           description: Typ av förmån
         version:
           type: string
-          description: Kundbehovets version
-        kundbehovsdatum:
+          description: Yrkandets version
+        yrkandedatum:
           type: string
-          description: Datetime när kundbehovet uppstod, enligt ISO 8601
+          description: Datetime när yrkandet uppstod, enligt ISO 8601
           format: date-time
-        kundbehovsstatus:
-          $ref: '#/components/schemas/Kundbehovsstatus'
+        yrkandestatus:
+          $ref: '#/components/schemas/Yrkandestatus'
         period:
           $ref: '#/components/schemas/Period'
         avsikt:
           $ref: '#/components/schemas/Avsikt'
         andringsorsak:
           type: string
-          description: Orsak till ändring av kundbehovet
-        kundbehovsroll:
+          description: Orsak till ändring av yrkandet
+        yrkanderoll:
           type: array
-          description: Rollerna i kundbehovet
+          description: Rollerna i yrkandet
           items:
-            $ref: '#/components/schemas/Kundbehovsroll'
+            $ref: '#/components/schemas/Yrkanderoll'
         ersattning:
           type: array
-          description: En eller flera ersättningar kopplade till kundbehovet
+          description: En eller flera ersättningar kopplade till yrkandet
           items:
             $ref: '#/components/schemas/Ersattning'
       required:
         - id
 
-    Kundbehovsstatus:
+    Yrkandestatus:
       type: string
-      description: Kundbehovsstatus
+      description: Yrkandestatus
       enum:
         - PLANERAT
         - YRKAT
@@ -255,9 +255,9 @@ components:
         - BORTTAG
         - ATERTAGEN
 
-    Kundbehovsroll:
+    Yrkanderoll:
       type: object
-      description: Roll i kundbehovet
+      description: Roll i yrkandet
       properties:
         id:
           type: string
@@ -295,29 +295,29 @@ components:
         - fornamn
         - efternamn
 
-    Kundbehovsflodespecifikation:
+    Handlaggningspecifikation:
       type: object
-      description: Kundbehovsflödespecifikation, ärendeslag
+      description: Handläggningspecifikation, ärendeslag
       properties:
         id:
           type: string
-          description: Kundbehovsflödespecifikationens unika ID
+          description: Handläggningspecifikationens unika ID
           format: uuid
         version:
           type: string
-          description: Kundbehovsflödespecifikationens version
+          description: Handläggningspecifikationens version
         bpmn:
           type: string
           description: BPMN processbeskrivning
         namn:
           type: string
-          description: Namnet på kundbehovsflödespecifikationen
+          description: Namnet på handläggningspecifikationen
         beskrivning:
           type: string
-          description: Beskrivning av kundbehovsflödespecifikationen
+          description: Beskrivning av handläggningspecifikationen
         uppgiftspecifikation:
           type: array
-          description: En eller flera uppgiftsspecifikationer som ingår i kundbehovsflödespecifikationen
+          description: En eller flera uppgiftsspecifikationer som ingår i handläggningspecifikationen
           items:
             $ref: '#/components/schemas/Uppgiftspecifikation'
       required:
@@ -353,9 +353,9 @@ components:
           description: Utförarens ID
           format: uuid
           nullable: true
-        kundbehovsflodeId:
+        handlaggningId:
           type: string
-          description: Kundbehovsflödets Id
+          description: Handläggingens Id
           format: uuid
         uppgiftStatus:
           $ref: '#/components/schemas/UppgiftStatus'
@@ -437,7 +437,7 @@ components:
 
     Roll:
       type: string
-      description: Roll i kundbehovet
+      description: Roll i yrkandet
       enum:
         - AGARE
         - DJUR
@@ -500,7 +500,7 @@ components:
 
     Ersattning:
       type: object
-      description: Ersättning kopplad till ett kundbehov
+      description: Ersättning kopplad till ett yrkande
       properties:
         id:
           type: string
@@ -591,45 +591,45 @@ components:
         - FASTSTALLT_UNDER_UTREDNING
         - FASTSTALLT
 
-    GetKundbehovsflodeResponse:
+    GetHandlaggningResponse:
       type: object
-      description: Svar vid hämtning av kundbehovsflöde
+      description: Svar vid hämtning av handläggning
       properties:
-        kundbehovsflode:
-          $ref: '#/components/schemas/Kundbehovsflode'
+        handlaggning:
+          $ref: '#/components/schemas/Handlaggning'
       required:
-        - kundbehovsflode
+        - handlaggning
 
-    PutKundbehovsflodeRequest:
+    PutHandlaggningRequest:
       type: object
-      description: Data som krävs för att uppdatera ett kundbehovsflöde
-      properties:
-        uppgift:
-          $ref: '#/components/schemas/Uppgift'
-      required:
-        - uppgift
-
-    PutKundbehovsflodeResponse:
-      type: object
-      description: Svar vid uppdatering av kundbehovsflöde
+      description: Data som krävs för att uppdatera ett handläggning
       properties:
         uppgift:
           $ref: '#/components/schemas/Uppgift'
       required:
         - uppgift
 
-    PostKundbehovsflodeResponse:
+    PutHandlaggningResponse:
       type: object
-      description: Svar vid skapande av ett nytt kundbehovsflöde
+      description: Svar vid uppdatering av handläggning
       properties:
-        kundbehovsflode:
-          $ref: '#/components/schemas/Kundbehovsflode'
+        uppgift:
+          $ref: '#/components/schemas/Uppgift'
       required:
-        - kundbehovsflode
+        - uppgift
 
-    PostKundbehovRequest:
+    PostHandlaggningResponse:
       type: object
-      description: Data som krävs för att skapa ett nytt kundbehov
+      description: Svar vid skapande av en ny handläggning
+      properties:
+        handlaggning:
+          $ref: '#/components/schemas/Handlaggning'
+      required:
+        - handlaggning
+
+    PostYrkandeRequest:
+      type: object
+      description: Data som krävs för att skapa ett nytt yrkande
       properties:
         persnr:
           type: string
@@ -644,14 +644,14 @@ components:
         - formanstyp
         - period
 
-    PostKundbehovResponse:
+    PostYrkandeResponse:
       type: object
-      description: Svar vid skapande av ett nytt kundbehov
+      description: Svar vid skapande av ett nytt yrkande
       properties:
-        kundbehov:
-          $ref: '#/components/schemas/Kundbehov'
+        yrkande:
+          $ref: '#/components/schemas/Yrkande'
       required:
-        - kundbehov
+        - yrkande
 
     Beslutsutfall:
       type: string
@@ -682,17 +682,17 @@ components:
       required:
         - ersattningId
 
-    PatchKundbehovsflodeRequest:
+    PatchHandlaggningRequest:
       type: array
       description: Lista med ersättningar att uppdatera beslutsutfall för
       items:
         $ref: '#/components/schemas/UpdateErsattning'
 
-    PatchKundbehovsflodeResponse:
+    PatchHandlaggningResponse:
       type: object
-      description: Svar vid uppdatering av beslutsutfall i kundbehovsflöde
+      description: Svar vid uppdatering av beslutsutfall i handläggning
       properties:
-        kundbehovsflode:
-          $ref: '#/components/schemas/Kundbehovsflode'
+        handlaggning:
+          $ref: '#/components/schemas/Handlaggning'
       required:
-        - kundbehovsflode
+        - handlaggning

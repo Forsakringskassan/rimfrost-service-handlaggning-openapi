@@ -1,1 +1,1 @@
-# rimfrost-service-kundbehovsflode-openapi
+# rimfrost-service-handlaggning-openapi
