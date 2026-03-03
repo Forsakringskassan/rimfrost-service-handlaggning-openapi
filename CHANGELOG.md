@@ -1,3 +1,9 @@
+## 1.3.10 (2026-03-03)
+
+### Bug Fixes
+
+-  renaming handlaggning och yrkande ([8f7d8](https://github.com/Forsakringskassan/rimfrost-service-kundbehovsflode-openapi/commit/8f7d80c36d805fd) Ulf Slunga)  
+
 ## 1.4.0 (2026-03-03)
 
 ### Features
