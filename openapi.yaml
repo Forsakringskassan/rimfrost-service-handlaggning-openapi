@@ -680,6 +680,10 @@ components:
               omfattning:
                 type: integer
                 description: Omfattning för ersättningen (i procent, 50 = 50%)
+              period:
+                $ref: '#/components/schemas/Period'
+              periodisering:
+                $ref: '#/components/schemas/Periodisering'
       required:
         - person
         - formanstyp
