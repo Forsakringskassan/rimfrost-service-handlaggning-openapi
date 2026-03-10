@@ -442,13 +442,17 @@ components:
         id:
           type: string
           format: uuid
-          description: Id för roll
+          description: Id för rollen
+        version:
+          type: string
+          description: Version av rollen
         namn:
           type: string
-          description: Namn på roll
+          description: Bas-roller är SOKANDE, AVSER, OMBUD, STALLFORETRADARE men ej begränsat till dessa värden.
       example:
         id: "58435904-c2b6-4b1f-a0ab-62f1839d8ff2"
-        namn: "Ägare"
+        version: "1.0"
+        namn: "SOKANDE"
 
     Regel:
       type: object
