@@ -1,3 +1,10 @@
+## 1.3.16 (2026-03-12)
+
+### Bug Fixes
+
+-  PATCH av ersättningar flyttas till yrkande api ([273e2](https://github.com/Forsakringskassan/rimfrost-service-handlaggning-openapi/commit/273e2289b80f5b9) Ulf Slunga)  
+-  yrkande i separat api samt yrkandeId ist för yrkande ([bfdc0](https://github.com/Forsakringskassan/rimfrost-service-handlaggning-openapi/commit/bfdc08e6a016564) Ulf Slunga)  
+
 ## 1.3.15 (2026-03-12)
 
 ### Bug Fixes
