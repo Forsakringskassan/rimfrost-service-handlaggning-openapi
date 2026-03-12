@@ -86,36 +86,6 @@ paths:
         '400':
           description: Bad request (t.ex. felaktigt handlaggningId)
 
-  /handlaggning/{handlaggningId}/ersattning:
-    patch:
-      tags: [HandlaggningController]
-      operationId: patchHandlaggning
-      summary: Uppdatera beslutsutfall för handläggning
-      description: Uppdatera beslutsutfall och avslagsanledning för ersättningar i en handläggning
-      parameters:
-        - name: handlaggningId
-          in: path
-          required: true
-          description: Handläggningens id
-          schema:
-            type: string
-            format: uuid
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/PatchHandlaggningRequest'
-      responses:
-        '200':
-          description: Handläggning uppdaterad OK
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/PatchHandlaggningResponse'
-        '400':
-          description: Bad request (t.ex. felaktigt handlaggningId)
-
 components:
   schemas:
     Handlaggning:
@@ -159,22 +129,6 @@ components:
         - PLANERAD
         - TILLDELAD
         - AVSLUTAD
-
-    Period:
-      type: object
-      description: En tidsperiod med start och slut
-      properties:
-        start:
-          type: string
-          format: date-time
-          description: Startdatum/tid för perioden, enligt ISO 8601
-        slut:
-          type: string
-          format: date-time
-          description: Slutdatum/tid för perioden, enligt ISO 8601
-      required:
-        - start
-        - slut
 
     Handlaggningspecifikation:
       type: object
@@ -370,107 +324,6 @@ components:
       required:
         - id
 
-    Ersattning:
-      type: object
-      description: Ersättning kopplad till ett yrkande
-      properties:
-        id:
-          type: string
-          description: Ersättningens unika ID
-          format: uuid
-        belopp:
-          type: integer
-          description: Ersättningsbelopp
-        berakningsgrund:
-          $ref: '#/components/schemas/Berakningsgrund'
-        beloppstyp:
-          $ref: '#/components/schemas/Beloppstyp'
-        ersattningstyp:
-          $ref: '#/components/schemas/Ersattningstyp'
-        periodisering:
-          $ref: '#/components/schemas/Periodisering'
-        omfattning:
-          type: integer
-          description: Omfattning för ersättningen (i procent, 50 = 50%)
-        beslutsutfall:
-          $ref: '#/components/schemas/Beslutsutfall'
-        avslagsanledning:
-          type: string
-          nullable: true
-          description: Anledning till avslag
-        produceratResultat:
-          $ref: '#/components/schemas/ProduceratResultat'
-
-    Berakningsgrund:
-      type: string
-      description: Grunden för beräkning
-      enum:
-        - LON
-        - FASTBELOPP
-
-    Beloppstyp:
-      type: string
-      description: Typ av belopp
-      enum:
-        - INKOMSTBASERAD
-        - GRUNDBELOPP
-
-    Ersattningstyp:
-      type: object
-      description: Ersättningstyp enligt lagrum
-      properties:
-        id:
-          type: string
-          format: uuid
-          description: Id för ersättningstyp
-        namn:
-          type: string
-          description: Namn på ersättningstyp
-      example: 
-        id: "314454e9-ca6d-4fa9-9ec5-e724fc58112f"
-        description: "Hundbidrag"
-
-    Periodisering:
-      type: string
-      description: Periodisering av ersättning
-      enum:
-        - MANAD
-        - VECKA
-        - DAG
-        - ENGANGS
-
-    ProduceratResultat:
-      type: object
-      description: Producerat resultat kopplat till en ersättning
-      properties:
-        id:
-          type: string
-          format: uuid
-          description: Producerat resultatets unika ID
-        version:
-          type: string
-          description: Version av producerat resultat
-        from:
-          type: string
-          format: date-time
-          description: Startdatum/tid då resultatet gäller från, enligt ISO 8601
-        tom:
-          type: string
-          format: date-time
-          description: Slutdatum/tid då resultatet gäller till, enligt ISO 8601
-        status:
-          $ref: '#/components/schemas/Ersattningsstatus'
-
-    Ersattningsstatus:
-      type: string
-      description: Ersättningsstatus
-      enum:
-        - PLANERAT
-        - YRKAT
-        - UNDER_UTREDNING
-        - FASTSTALLT_UNDER_UTREDNING
-        - FASTSTALLT
-
     GetHandlaggningResponse:
       type: object
       description: Svar vid hämtning av handläggning
@@ -501,50 +354,6 @@ components:
     PostHandlaggningResponse:
       type: object
       description: Svar vid skapande av en ny handläggning
-      properties:
-        handlaggning:
-          $ref: '#/components/schemas/Handlaggning'
-      required:
-        - handlaggning
-
-    Beslutsutfall:
-      type: string
-      description: Beslutsutfall för ersättning
-      enum:
-        - JA
-        - NEJ
-        - FU
-
-    UpdateErsattning:
-      type: object
-      description: Uppdatering av beslutsutfall för en ersättning
-      properties:
-        ersattningId:
-          type: string
-          format: uuid
-          description: Ersättningens unika ID
-        beslutsutfall:
-          $ref: '#/components/schemas/Beslutsutfall'
-          nullable: true
-        avslagsanledning:
-          type: string
-          nullable: true
-          description: Anledning till avslag
-        ErsattningsStatus:
-          $ref: '#/components/schemas/Ersattningsstatus'
-          nullable: true
-      required:
-        - ersattningId
-
-    PatchHandlaggningRequest:
-      type: array
-      description: Lista med ersättningar att uppdatera beslutsutfall för
-      items:
-        $ref: '#/components/schemas/UpdateErsattning'
-
-    PatchHandlaggningResponse:
-      type: object
-      description: Svar vid uppdatering av beslutsutfall i handläggning
       properties:
         handlaggning:
           $ref: '#/components/schemas/Handlaggning'
