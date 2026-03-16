@@ -57,11 +57,13 @@ paths:
                 $ref: '#/components/schemas/GetHandlaggningResponse'
         '400':
           description: Bad request (t.ex. felaktigt handlaggningId)
+
+  /handlaggning/{handlaggningId}/uppgift/{uppgiftId}:
     put:
       tags: [HandlaggningController]
-      operationId: putHandlaggning
-      summary: Uppdatera handläggning
-      description: Uppdatera handläggning för handlaggningId
+      operationId: putUppgift
+      summary: Uppdatera uppgift
+      description: Uppdatera uppgift för handlaggningId
       parameters:
         - name: handlaggningId
           in: path
@@ -70,21 +72,28 @@ paths:
           schema:
             type: string
             format: uuid
+        - name: uppgiftId
+          in: path
+          required: true
+          description: Uppgiftens id
+          schema:
+            type: string
+            format: uuid
       requestBody:
         required: true
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/PutHandlaggningRequest'
+              $ref: '#/components/schemas/PutUppgiftRequest'
       responses:
         '200':
-          description: Handläggning uppdaterat OK
+          description: Uppgift uppdaterad OK
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/PutHandlaggningResponse'
+                $ref: '#/components/schemas/PutUppgiftResponse'
         '400':
-          description: Bad request (t.ex. felaktigt handlaggningId)
+          description: Bad request (t.ex. felaktigt handlaggningId eller uppgiftId)
 
 components:
   schemas:
@@ -210,6 +219,45 @@ components:
         - version
         - handlaggningId
         - uppgiftStatus
+          
+    UppgiftUpdate:
+      type: object
+      description: Uppgift
+      properties:
+        version: 
+          type: string
+          description: Uppgiftens version
+        utfordTs:
+          type: string
+          format: date-time
+          description: Tidpunkt då uppgiften utfördes, enligt ISO 8601
+          nullable: true
+        planeradTs:
+          type: string
+          format: date-time
+          description: Tidpunkt då uppgiften är planerad att utföras, enligt ISO 8601
+          nullable: true
+        utforarId: 
+          type: string
+          description: Utförarens ID
+          format: uuid
+          nullable: true
+        uppgiftStatus:
+          $ref: '#/components/schemas/UppgiftStatus'
+        FSSAinformation:
+          $ref: '#/components/schemas/FSSAinformation'
+        underlag:
+          type: array
+          description: Ett eller flera underlag som uppgiften använder sig av
+          items:
+            $ref: '#/components/schemas/Underlag'
+        resultat: 
+          type: array
+          description: Ett eller flera resultat av uppgiften
+          items:
+            $ref: '#/components/schemas/Resultat'
+      required:
+        - version
 
     Underlag:
       type: object
@@ -261,18 +309,18 @@ components:
       required:
         - handlaggning
 
-    PutHandlaggningRequest:
+    PutUppgiftRequest:
       type: object
-      description: Data som krävs för att uppdatera en handläggning
+      description: Data som krävs för att uppdatera en uppgift i en handläggning
       properties:
         uppgift:
-          $ref: '#/components/schemas/Uppgift'
+          $ref: '#/components/schemas/UppgiftUpdate'
       required:
         - uppgift
 
-    PutHandlaggningResponse:
+    PutUppgiftResponse:
       type: object
-      description: Svar vid uppdatering av handläggning
+      description: Svar vid uppdatering av uppgift
       properties:
         uppgift:
           $ref: '#/components/schemas/Uppgift'
