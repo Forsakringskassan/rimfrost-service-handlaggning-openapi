@@ -30,7 +30,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/PostHandlaggningResponse'
+                $ref: '#/components/schemas/HandlaggningResponse'
         '400':
           description: Bad request (t.ex. felaktigt yrkandeId)
 
@@ -54,16 +54,14 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/GetHandlaggningResponse'
+                $ref: '#/components/schemas/HandlaggningResponse'
         '400':
           description: Bad request (t.ex. felaktigt handlaggningId)
-
-  /handlaggning/{handlaggningId}/uppgift/{uppgiftId}:
     put:
-      tags: [HandlaggningController]
-      operationId: putUppgift
-      summary: Uppdatera uppgift
-      description: Uppdatera uppgift för handlaggningId
+      tags: [ HandlaggningController ]
+      operationId: putHandlaggning
+      summary: Uppdatera handläggning
+      description: Uppdatera handläggning knutet till handlaggningId
       parameters:
         - name: handlaggningId
           in: path
@@ -72,28 +70,21 @@ paths:
           schema:
             type: string
             format: uuid
-        - name: uppgiftId
-          in: path
-          required: true
-          description: Uppgiftens id
-          schema:
-            type: string
-            format: uuid
       requestBody:
         required: true
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/PutUppgiftRequest'
+              $ref: '#/components/schemas/PutHandlaggningRequest'
       responses:
         '200':
-          description: Uppgift uppdaterad OK
+          description: Handläggning uppdaterad OK
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/PutUppgiftResponse'
+                $ref: '#/components/schemas/HandlaggningResponse'
         '400':
-          description: Bad request (t.ex. felaktigt handlaggningId eller uppgiftId)
+          description: Bad request (t.ex. felaktigt handlaggningId)
 
 components:
   schemas:
@@ -126,11 +117,30 @@ components:
           format: date-time
         handlaggningspecifikation:
           $ref: '#/components/schemas/Handlaggningspecifikation'
+        uppgift:
+          $ref: '#/components/schemas/Uppgift'
       required:
         - id
         - version
         - yrkandeId
         - processinstansId
+
+    HandlaggningUpdate:
+      type: object
+      description: Handläggning, ärendeinstans
+      properties:
+        version:
+          type: string
+          description: Handläggningens version
+        avslutadTS:
+          type: string
+          description: DateTime när handläggning avslutades, enligt ISO 8601
+          format: date-time
+        uppgift:
+          $ref: '#/components/schemas/UppgiftUpdate'
+      required:
+        - version
+        - uppgift
 
     UppgiftStatus:
       type: string
@@ -196,19 +206,14 @@ components:
           description: Utförarens ID
           format: uuid
           nullable: true
-        handlaggningId:
+        aktivitetId:
           type: string
-          description: Handläggningens Id
+          description: Aktivitetens Id
           format: uuid
         uppgiftStatus:
           $ref: '#/components/schemas/UppgiftStatus'
         FSSAinformation:
           $ref: '#/components/schemas/FSSAinformation'
-        underlag:
-          type: array
-          description: Ett eller flera underlag som uppgiften använder sig av
-          items:
-            $ref: '#/components/schemas/Underlag'
         resultat:
           type: array
           description: Ett eller flera resultat av uppgiften
@@ -300,38 +305,18 @@ components:
         - VANTAR_PA_INFO_FRAN_ANNAN_PART
         - VANTAR_PA_INFO_FRAN_KUND
 
-    GetHandlaggningResponse:
+    HandlaggningResponse:
       type: object
-      description: Svar vid hämtning av handläggning
+      description: Svar vid skapande/hämtning av handläggning
       properties:
         handlaggning:
           $ref: '#/components/schemas/Handlaggning'
       required:
         - handlaggning
 
-    PutUppgiftRequest:
+    PutHandlaggningRequest:
       type: object
-      description: Data som krävs för att uppdatera en uppgift i en handläggning
-      properties:
-        uppgift:
-          $ref: '#/components/schemas/UppgiftUpdate'
-      required:
-        - uppgift
-
-    PutUppgiftResponse:
-      type: object
-      description: Svar vid uppdatering av uppgift
-      properties:
-        uppgift:
-          $ref: '#/components/schemas/Uppgift'
-      required:
-        - uppgift
-
-    PostHandlaggningResponse:
-      type: object
-      description: Svar vid skapande av en ny handläggning
+      description: Uppdatera handläggning
       properties:
         handlaggning:
-          $ref: '#/components/schemas/Handlaggning'
-      required:
-        - handlaggning
+          $ref: '#/components/schemas/HandlaggningUpdate'
