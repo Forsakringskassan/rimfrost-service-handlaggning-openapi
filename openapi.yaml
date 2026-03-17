@@ -399,7 +399,6 @@ components:
       required:
         - id
         - version
-        - handlaggningId
         - uppgiftStatus
 
     UppgiftSpecifikation:
