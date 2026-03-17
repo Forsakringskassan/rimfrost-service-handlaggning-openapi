@@ -17,18 +17,6 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/PostYrkandeRequest'
-            example:
-              erbjudandeId: "a3b9c7b8-1234-4567-89ab-123456789abc"
-              yrkandeFrom: "2025-01-01T00:00:00Z"
-              yrkandeTom: "2025-01-02T00:00:00Z"
-              individYrkandeRoller:
-                - individId: "58435904-c2b6-4b1f-a0ab-62f1839d8ff2"
-                  yrkandeRollId: "58435904-c2b6-4b1f-a0ab-62f1839d8ff2"
-              yrkadeResultat:
-                - from: "2025-01-01T00:00:00Z"
-                  tom: "2025-01-02T00:00:00Z"
-                  typ: "ERSATTNING"
-                  data: "{}"
       responses:
         '201':
           description: Skapat yrkande OK
@@ -146,6 +134,18 @@ components:
         - yrkandeTom
         - individYrkandeRoller
         - produceradeResultat
+      example:
+        erbjudandeId: "a3b9c7b8-1234-4567-89ab-123456789abc"
+        yrkandeFrom: "2025-01-01T00:00:00Z"
+        yrkandeTom: "2025-01-02T00:00:00Z"
+        individYrkandeRoller:
+          - individId: "58435904-c2b6-4b1f-a0ab-62f1839d8ff2"
+            yrkandeRollId: "58435904-c2b6-4b1f-a0ab-62f1839d8ff2"
+        produceradeResultat:
+          - from: "2025-01-01T00:00:00Z"
+            tom: "2025-01-02T00:00:00Z"
+            typ: "ERSATTNING"
+            data: "{}"
 
     PostYrkandeResponse:
       type: object
