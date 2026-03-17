@@ -312,7 +312,7 @@ components:
           description: Handläggningens unika ID
           format: uuid
         version:
-          type: string
+          type: integer
           description: Handläggningens version
         yrkande:
           $ref: '#/components/schemas/Yrkande'
@@ -364,7 +364,7 @@ components:
           description: Uppgiftens ID
           format: uuid
         version:
-          type: string
+          type: integer
           description: Uppgiftens version
         skapadTs:
           type: string
@@ -408,13 +408,10 @@ components:
           type: string
           format: uuid
         version:
-          type: int
-
+          type: integer
       required:
         - id
         - version
-        - handlaggningId
-        - uppgiftStatus
 
     Underlag:
       type: object
@@ -423,7 +420,7 @@ components:
           type: string
           description: Specificerar vilken typ av underlag det är
         version:
-          type: string
+          type: integer
           description: Specificerar vilken version av underlags typ det är
         data:
           type: string
@@ -441,7 +438,7 @@ components:
           description: Resultatets unika id
           format: uuid
         version:
-          type: string
+          type: integer
           description: Specificerar vilken version av resultatet det är
         from:
           type: string
