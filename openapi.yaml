@@ -169,8 +169,28 @@ components:
       type: object
       description: Skapa ny handläggning
       properties:
-        handlaggning:
-          $ref: '#/components/schemas/Handlaggning'
+        yrkande:
+          $ref: '#/components/schemas/Yrkande'
+        processinstansId:
+          type: string
+          description: BPMN processinstansens unika ID
+          format: uuid
+        handlaggningspecifikationId:
+          type: string
+          format: uuid
+        underlag:
+          type: array
+          description: Ett eller flera underlag som handläggningen använder sig av
+          items:
+            $ref: '#/components/schemas/Underlag'
+        uppgift:
+          $ref: '#/components/schemas/Uppgift'
+      required:
+        - yrkande
+        - processInstansId
+        - handlaggningspecifikationId
+        - underlag
+        - uppgift
 
     PostHandlaggningResponse:
       type: object
@@ -180,7 +200,6 @@ components:
           $ref: '#/components/schemas/Handlaggning'
       required:
         - handlaggning
-
 
     PutHandlaggningRequest:
       type: object
