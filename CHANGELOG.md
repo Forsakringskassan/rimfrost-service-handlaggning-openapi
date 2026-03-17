@@ -1,3 +1,15 @@
+## 1.3.18 (2026-03-17)
+
+### Bug Fixes
+
+-  processInstansId ([cb10e](https://github.com/Forsakringskassan/rimfrost-service-handlaggning-openapi/commit/cb10e80ea192f9f) Ulf Slunga)  
+-  tar bort underlag och uppgift från get handlaggning response ([5b61b](https://github.com/Forsakringskassan/rimfrost-service-handlaggning-openapi/commit/5b61b015c66ec72) Ulf Slunga)  
+-  tar bort onödig info från PostHandlaggningRequest ([0df7d](https://github.com/Forsakringskassan/rimfrost-service-handlaggning-openapi/commit/0df7d9eeed5be54) Ulf Slunga)  
+-  version som integer ([c9b7d](https://github.com/Forsakringskassan/rimfrost-service-handlaggning-openapi/commit/c9b7d9354a44e60) Ulf Slunga)  
+-  tar bort handlaggningId i uppgift ([5b4af](https://github.com/Forsakringskassan/rimfrost-service-handlaggning-openapi/commit/5b4af2408b0b354) Ulf Slunga)  
+-  uppdaterar exempel ([74184](https://github.com/Forsakringskassan/rimfrost-service-handlaggning-openapi/commit/74184c5824307a3) Ulf Slunga)  
+-  yrkande som en del av handläggning ([f6dc6](https://github.com/Forsakringskassan/rimfrost-service-handlaggning-openapi/commit/f6dc60c6c3c2b88) Ulf Slunga)  
+
 ## 1.3.17 (2026-03-13)
 
 ### Bug Fixes
