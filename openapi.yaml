@@ -1,29 +1,54 @@
 openapi: 3.0.3
 info:
   title: Handläggning API
-  version: 1.0.2
-  description: API för att hämta och lagra handläggningsinformation.
+  version: 1.0.0
+  description: API för att hantera handläggningar och yrkanden.
 
 paths:
-  /handlaggning:
+  /yrkande:
     post:
-      tags: [HandlaggningController]
-      operationId: postHandlaggning
-      summary: Skapa en ny handläggning
-      description: Skapa en ny handläggning för ett specifikt yrkande
+      tags: [ HandlaggningController ]
+      operationId: postYrkande
+      summary: Skapar ett nytt yrkande
+      description: Skapar ett nytt yrkande
       requestBody:
         required: true
         content:
           application/json:
             schema:
-              type: object
-              properties:
-                yrkandeId:
-                  type: string
-                  format: uuid
-                  description: Yrkandets id
-              required:
-                - yrkandeId
+              $ref: '#/components/schemas/PostYrkandeRequest'
+            example:
+              erbjudandeId: "a3b9c7b8-1234-4567-89ab-123456789abc"
+              yrkandeFrom: "2025-01-01T00:00:00Z"
+              yrkandeTom: "2025-01-02T00:00:00Z"
+              individYrkandeRoller:
+                - individId: "58435904-c2b6-4b1f-a0ab-62f1839d8ff2"
+                  yrkandeRollId: "58435904-c2b6-4b1f-a0ab-62f1839d8ff2"
+              yrkadeResultat:
+                - from: "2025-01-01T00:00:00Z"
+                  tom: "2025-01-02T00:00:00Z"
+                  typ: "ERSATTNING"
+                  data: "{}"
+      responses:
+        '201':
+          description: Skapat yrkande OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PostYrkandeResponse'
+
+  /handlaggning:
+    post:
+      tags: [ HandlaggningController ]
+      operationId: postHandlaggning
+      summary: Skapa en ny handläggning
+      description: Skapa en ny handläggning
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PostHandlaggningRequest'
       responses:
         '201':
           description: Handläggning skapat OK
@@ -32,11 +57,11 @@ paths:
               schema:
                 $ref: '#/components/schemas/PostHandlaggningResponse'
         '400':
-          description: Bad request (t.ex. felaktigt yrkandeId)
+          description: Bad request (t.ex. felaktigt yrkande)
 
   /handlaggning/{handlaggningId}:
     get:
-      tags: [HandlaggningController]
+      tags: [ HandlaggningController ]
       operationId: getHandlaggning
       summary: Hämta handläggning
       description: Hämta handläggning knutet till handlaggningId
@@ -58,10 +83,10 @@ paths:
         '400':
           description: Bad request (t.ex. felaktigt handlaggningId)
     put:
-      tags: [HandlaggningController]
+      tags: [ HandlaggningController ]
       operationId: putHandlaggning
       summary: Uppdatera handläggning
-      description: Uppdatera handläggning för handlaggningId
+      description: Uppdatera handläggning knutet till handlaggningId
       parameters:
         - name: handlaggningId
           in: path
@@ -78,7 +103,7 @@ paths:
               $ref: '#/components/schemas/PutHandlaggningRequest'
       responses:
         '200':
-          description: Handläggning uppdaterat OK
+          description: Handläggning uppdaterad OK
           content:
             application/json:
               schema:
@@ -88,6 +113,196 @@ paths:
 
 components:
   schemas:
+
+    PostYrkandeRequest:
+      type: object
+      description: Data som krävs för att skapa ett nytt yrkande
+      properties:
+        erbjudandeId:
+          type: string
+          format: uuid
+          description: Vilket erbjudande yrkandet avser
+        yrkandeFrom:
+          type: string
+          format: date-time
+          description: Yrkande från och med datum
+        yrkandeTom:
+          type: string
+          format: date-time
+          description: Yrkande till och med datum
+        individYrkandeRoller:
+          type: array
+          description: Lista av personer involverade i yrkandet samt deras roll
+          items:
+            $ref: '#/components/schemas/IndividYrkandeRoll'
+        produceradeResultat:
+          type: array
+          description: Lista av producerade resultat
+          items:
+            $ref: '#/components/schemas/ProduceratResultat'
+      required:
+        - erbjudandeId
+        - yrkandeFrom
+        - yrkandeTom
+        - individYrkandeRoller
+        - produceradeResultat
+
+    PostYrkandeResponse:
+      type: object
+      description: Svar vid skapande av ett nytt yrkande
+      properties:
+        yrkande:
+          $ref: '#/components/schemas/Yrkande'
+      required:
+        - yrkande
+
+    GetHandlaggningResponse:
+      type: object
+      description: Svar vid skapande/hämtning av handläggning
+      properties:
+        handlaggning:
+          $ref: '#/components/schemas/Handlaggning'
+      required:
+        - handlaggning
+
+    PostHandlaggningRequest:
+      type: object
+      description: Skapa ny handläggning
+      properties:
+        handlaggning:
+          $ref: '#/components/schemas/Handlaggning'
+
+    PostHandlaggningResponse:
+      type: object
+      description: Svar vid skapande av ny handläggning
+      properties:
+        handlaggning:
+          $ref: '#/components/schemas/Handlaggning'
+      required:
+        - handlaggning
+
+
+    PutHandlaggningRequest:
+      type: object
+      description: Uppdatera handläggning
+      properties:
+        handlaggning:
+          $ref: '#/components/schemas/Handlaggning'
+
+    PutHandlaggningResponse:
+      type: object
+      description: Svar vid uppdatering av handläggning
+      properties:
+        handlaggning:
+          $ref: '#/components/schemas/Handlaggning'
+      required:
+        - handlaggning
+
+    Yrkande:
+      type: object
+      description: Yrkande
+      properties:
+        id:
+          type: string
+          description: Yrkandets unika ID
+          format: uuid
+        version:
+          type: integer
+          description: Yrkandets version
+        erbjudandeId:
+          type: string
+          description: Erbjudandets unika ID
+          format: uuid
+        yrkandedatum:
+          type: string
+          description: Datetime när yrkandet uppstod, enligt ISO 8601
+          format: date-time
+        yrkandestatus:
+          $ref: '#/components/schemas/Yrkandestatus'
+        yrkandeFrom:
+          type: string
+          format: date-time
+          description: Yrkande från och med datum
+        yrkandeTom:
+          type: string
+          format: date-time
+          description: Yrkande till och med datum
+        avsikt:
+          $ref: '#/components/schemas/Avsiktstyp'
+        individYrkandeRoller:
+          type: array
+          description: Lista av personer involverade i yrkandet samt deras roll
+          items:
+            $ref: '#/components/schemas/IndividYrkandeRoll'
+        produceradeResultat:
+          type: array
+          description: Lista av producerade resultat
+          items:
+            $ref: '#/components/schemas/ProduceratResultat'
+      required:
+        - id
+        - version
+        - erbjudandeId
+        - yrkandedatum
+        - yrkandestatus
+        - yrkandeFrom
+        - yrkandeTom
+        - avsikt
+        - individYrkandeRoller
+        - produceradeResultat
+
+    Yrkandestatus:
+      type: string
+      description: Yrkandestatus
+      enum:
+        - PLANERAT
+        - YRKAT
+        - UNDER_UTREDNING
+        - FASTSTALLT_UNDER_UTREDNING
+        - FASTSTALLT
+
+    Avsiktstyp:
+      type: string
+      description: Avsiktstyp
+      enum:
+        - NY
+        - ANDRING
+        - BORTTAG
+        - ATERTAGEN
+
+    ProduceratResultat:
+      type: object
+      description: Producerat resultat
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: Producerade resultatets unika ID
+        version:
+          type: integer
+          description: Version av producerat resultat
+        from:
+          type: string
+          format: date-time
+          description: Startdatum/tid då resultatet gäller från, enligt ISO 8601
+        tom:
+          type: string
+          format: date-time
+          description: Slutdatum/tid då resultatet gäller till, enligt ISO 8601
+        typ:
+          type: string
+          description: Specificerar vilket typ av resultat objekt
+        data:
+          type: string
+          description: Json data av den typ som har angetts
+      required:
+        - id
+        - version
+        - from
+        - tom
+        - typ
+        - data
+
     Handlaggning:
       type: object
       description: Handläggning, ärendeinstans
@@ -99,10 +314,8 @@ components:
         version:
           type: string
           description: Handläggningens version
-        yrkandeId:
-          type: string
-          description: Yrkandets unika ID
-          format: uuid
+        yrkande:
+          $ref: '#/components/schemas/Yrkande'
         processinstansId:
           type: string
           description: BPMN processinstansens unika ID
@@ -115,13 +328,24 @@ components:
           type: string
           description: DateTime när handläggning avslutades, enligt ISO 8601
           format: date-time
-        handlaggningspecifikation:
-          $ref: '#/components/schemas/Handlaggningspecifikation'
+        handlaggningspecifikationId:
+          type: string
+          format: uuid
+        underlag:
+          type: array
+          description: Ett eller flera underlag som handläggningen använder sig av
+          items:
+            $ref: '#/components/schemas/Underlag'
+        uppgift:
+          $ref: '#/components/schemas/Uppgift'
       required:
         - id
         - version
-        - yrkandeId
+        - yrkande
         - processinstansId
+        - skapadTS
+        - handlaggningspecifikationId
+        - underlag
 
     UppgiftStatus:
       type: string
@@ -130,32 +354,6 @@ components:
         - PLANERAD
         - TILLDELAD
         - AVSLUTAD
-
-    Handlaggningspecifikation:
-      type: object
-      description: Handläggningspecifikation, ärendeslag
-      properties:
-        id:
-          type: string
-          description: Handläggningspecifikationens unika ID
-          format: uuid
-        version:
-          type: string
-          description: Handläggningspecifikationens version
-        bpmn:
-          type: string
-          description: BPMN processbeskrivning
-        namn:
-          type: string
-          description: Namnet på handläggningspecifikationen
-        beskrivning:
-          type: string
-          description: Beskrivning av handläggningspecifikationen
-      required:
-        - id
-        - version
-        - namn
-        - beskrivning
 
     Uppgift:
       type: object
@@ -187,24 +385,32 @@ components:
           description: Utförarens ID
           format: uuid
           nullable: true
-        handlaggningId:
+        aktivitetId:
           type: string
-          description: Handläggningens Id
+          description: Aktivitetens Id
           format: uuid
+        uppgiftspecifikation:
+          $ref: '#/components/schemas/UppgiftSpecifikation'
         uppgiftStatus:
           $ref: '#/components/schemas/UppgiftStatus'
         FSSAinformation:
           $ref: '#/components/schemas/FSSAinformation'
-        underlag:
-          type: array
-          description: Ett eller flera underlag som uppgiften använder sig av
-          items:
-            $ref: '#/components/schemas/Underlag'
-        resultat:
-          type: array
-          description: Ett eller flera resultat av uppgiften
-          items:
-            $ref: '#/components/schemas/Resultat'
+
+      required:
+        - id
+        - version
+        - handlaggningId
+        - uppgiftStatus
+
+    UppgiftSpecifikation:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        version:
+          type: int
+
       required:
         - id
         - version
@@ -231,18 +437,39 @@ components:
     Resultat:
       type: object
       properties:
-        typ:
+        id:
           type: string
-          description: Specificerar vilken typ av resultat det är
+          description: Resultatets unika id
+          format: uuid
         version:
           type: string
           description: Specificerar vilken version av resultatet det är
+        from:
+          type: string
+          format: date-time
+          description: Resultat från och med datum
+        tom:
+          type: string
+          format: date-time
+          description: Resultat till och med datum
+        yrkandestatus:
+          $ref: '#/components/schemas/Yrkandestatus'
+        avslagsanledning:
+          type: string
+          description: Orsak till avslag
+        typ:
+          type: string
+          description: Specificerar vilken typ av resultat det är
         data:
           type: string
           description: All data i resultatet i formatet JSON
       required:
-        - typ
+        - id
         - version
+        - from
+        - tom
+        - yrkandestatus
+        - typ
         - data
 
     FSSAinformation:
@@ -252,38 +479,30 @@ components:
         - VANTAR_PA_INFO_FRAN_ANNAN_PART
         - VANTAR_PA_INFO_FRAN_KUND
 
-    GetHandlaggningResponse:
-      type: object
-      description: Svar vid hämtning av handläggning
-      properties:
-        handlaggning:
-          $ref: '#/components/schemas/Handlaggning'
-      required:
-        - handlaggning
 
-    PutHandlaggningRequest:
-      type: object
-      description: Data som krävs för att uppdatera en handläggning
-      properties:
-        uppgift:
-          $ref: '#/components/schemas/Uppgift'
-      required:
-        - uppgift
 
-    PutHandlaggningResponse:
-      type: object
-      description: Svar vid uppdatering av handläggning
-      properties:
-        uppgift:
-          $ref: '#/components/schemas/Uppgift'
-      required:
-        - uppgift
 
-    PostHandlaggningResponse:
+    IndividYrkandeRoll:
       type: object
-      description: Svar vid skapande av en ny handläggning
+      description: Representerar en individ tillsammans med dess roll
       properties:
-        handlaggning:
-          $ref: '#/components/schemas/Handlaggning'
+        individId:
+          type: string
+          format: uuid
+          description: Id till en individ
+        yrkandeRollId:
+          type: string
+          format: uuid
+          description: Id till en yrkande roll
       required:
-        - handlaggning
+        - individId
+        - yrkandeRollId
+
+    Beslutsutfall:
+      type: string
+      description: Beslutsutfall för ersättning
+      enum:
+        - JA
+        - NEJ
+        - FU
+
