@@ -171,7 +171,7 @@ components:
       properties:
         yrkande:
           $ref: '#/components/schemas/Yrkande'
-        processinstansId:
+        processInstansId:
           type: string
           description: BPMN processinstansens unika ID
           format: uuid
