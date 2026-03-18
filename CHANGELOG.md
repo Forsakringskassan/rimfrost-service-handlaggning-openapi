@@ -1,3 +1,13 @@
+## 1.3.20 (2026-03-18)
+
+### Other changes
+
+**Revert "fix: get handlaggning returnerade fel typ"**
+
+
+[48ca2](https://github.com/Forsakringskassan/rimfrost-service-handlaggning-openapi/commit/48ca28de675bf3d) Ulf Slunga *2026-03-18 06:38:17*
+
+
 ## 1.3.19 (2026-03-18)
 
 ### Bug Fixes
