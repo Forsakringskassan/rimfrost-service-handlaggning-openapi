@@ -1,3 +1,9 @@
+## 1.3.22 (2026-03-18)
+
+### Bug Fixes
+
+-  update PostHandlaggningRequest ([b7e1a](https://github.com/Forsakringskassan/rimfrost-service-handlaggning-openapi/commit/b7e1aab279560f4) Nils Elveros)  
+
 ## 1.3.20 (2026-03-18)
 
 ### Other changes
