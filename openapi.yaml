@@ -301,6 +301,12 @@ components:
           type: string
           format: date-time
           description: Slutdatum/tid då resultatet gäller till, enligt ISO 8601
+        yrkandestatus:
+          $ref: '#/components/schemas/Yrkandestatus'
+        avslagsanledning:
+          type: string
+          description: Orsak till avslag
+          nullable: true
         typ:
           type: string
           description: Specificerar vilket typ av resultat objekt
@@ -312,6 +318,7 @@ components:
         - version
         - from
         - tom
+        - yrkandestatus
         - typ
         - data
 
@@ -340,6 +347,7 @@ components:
           type: string
           description: DateTime när handläggning avslutades, enligt ISO 8601
           format: date-time
+          nullable: true
         handlaggningspecifikationId:
           type: string
           format: uuid
@@ -384,6 +392,7 @@ components:
           type: string
           description: DateTime när handläggning avslutades, enligt ISO 8601
           format: date-time
+          nullable: true
         handlaggningspecifikationId:
           type: string
           format: uuid
@@ -478,53 +487,12 @@ components:
         - version
         - data
 
-    Resultat:
-      type: object
-      properties:
-        id:
-          type: string
-          description: Resultatets unika id
-          format: uuid
-        version:
-          type: integer
-          description: Specificerar vilken version av resultatet det är
-        from:
-          type: string
-          format: date-time
-          description: Resultat från och med datum
-        tom:
-          type: string
-          format: date-time
-          description: Resultat till och med datum
-        yrkandestatus:
-          $ref: '#/components/schemas/Yrkandestatus'
-        avslagsanledning:
-          type: string
-          description: Orsak till avslag
-        typ:
-          type: string
-          description: Specificerar vilken typ av resultat det är
-        data:
-          type: string
-          description: All data i resultatet i formatet JSON
-      required:
-        - id
-        - version
-        - from
-        - tom
-        - yrkandestatus
-        - typ
-        - data
-
     FSSAinformation:
       type: string
       enum:
         - HANDLAGGNING_PAGAR
         - VANTAR_PA_INFO_FRAN_ANNAN_PART
         - VANTAR_PA_INFO_FRAN_KUND
-
-
-
 
     IndividYrkandeRoll:
       type: object
