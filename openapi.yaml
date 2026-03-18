@@ -161,7 +161,7 @@ components:
       description: Svar vid hämtning av handläggning
       properties:
         handlaggning:
-          $ref: '#/components/schemas/Handlaggning'
+          $ref: '#/components/schemas/HandlaggningResponse'
       required:
         - handlaggning
 
@@ -366,6 +366,42 @@ components:
         - handlaggningspecifikationId
         - underlag
 
+    HandlaggningResponse:
+      type: object
+      description: Handläggning, ärendeinstans
+      properties:
+        id:
+          type: string
+          description: Handläggningens unika ID
+          format: uuid
+        version:
+          type: integer
+          description: Handläggningens version
+        yrkande:
+          $ref: '#/components/schemas/Yrkande'
+        processinstansId:
+          type: string
+          description: BPMN processinstansens unika ID
+          format: uuid
+        skapadTS:
+          type: string
+          description: DateTime när handläggning skapades, enligt ISO 8601
+          format: date-time
+        avslutadTS:
+          type: string
+          description: DateTime när handläggning avslutades, enligt ISO 8601
+          format: date-time
+        handlaggningspecifikationId:
+          type: string
+          format: uuid
+      required:
+        - id
+        - version
+        - yrkande
+        - processinstansId
+        - skapadTS
+        - handlaggningspecifikationId
+
     UppgiftStatus:
       type: string
       description: Uppgiftens status
@@ -493,6 +529,9 @@ components:
         - HANDLAGGNING_PAGAR
         - VANTAR_PA_INFO_FRAN_ANNAN_PART
         - VANTAR_PA_INFO_FRAN_KUND
+
+
+
 
     IndividYrkandeRoll:
       type: object
