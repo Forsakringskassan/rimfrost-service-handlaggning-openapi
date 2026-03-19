@@ -1,3 +1,9 @@
+## 1.3.23 (2026-03-19)
+
+### Bug Fixes
+
+-  Add yrkandestatus and avslagsanledning to ProduceratResultat ([ad762](https://github.com/Forsakringskassan/rimfrost-service-handlaggning-openapi/commit/ad762899c85809f) Lars Persson)  
+
 ## 1.3.22 (2026-03-18)
 
 ### Bug Fixes
