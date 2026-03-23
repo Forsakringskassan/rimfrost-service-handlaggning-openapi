@@ -1,3 +1,9 @@
+## 1.3.24 (2026-03-23)
+
+### Bug Fixes
+
+-  Use HandlaggningResponse instead of Handlaggning for PostHandlaggningResponse ([918f2](https://github.com/Forsakringskassan/rimfrost-service-handlaggning-openapi/commit/918f27613f68763) Lars Persson)  
+
 ## 1.3.23 (2026-03-19)
 
 ### Bug Fixes
