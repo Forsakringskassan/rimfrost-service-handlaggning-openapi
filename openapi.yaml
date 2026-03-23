@@ -190,7 +190,7 @@ components:
       description: Svar vid skapande av ny handläggning
       properties:
         handlaggning:
-          $ref: '#/components/schemas/Handlaggning'
+          $ref: '#/components/schemas/HandlaggningResponse'
       required:
         - handlaggning
 
