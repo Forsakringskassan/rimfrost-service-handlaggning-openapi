@@ -161,7 +161,7 @@ components:
       description: Svar vid hämtning av handläggning
       properties:
         handlaggning:
-          $ref: '#/components/schemas/HandlaggningResponse'
+          $ref: '#/components/schemas/Handlaggning'
       required:
         - handlaggning
 
@@ -190,7 +190,7 @@ components:
       description: Svar vid skapande av ny handläggning
       properties:
         handlaggning:
-          $ref: '#/components/schemas/HandlaggningResponse'
+          $ref: '#/components/schemas/Handlaggning'
       required:
         - handlaggning
 
@@ -199,14 +199,14 @@ components:
       description: Uppdatera handläggning
       properties:
         handlaggning:
-          $ref: '#/components/schemas/Handlaggning'
+          $ref: '#/components/schemas/HandlaggningUpdate'
 
     PutHandlaggningResponse:
       type: object
       description: Svar vid uppdatering av handläggning
       properties:
         handlaggning:
-          $ref: '#/components/schemas/Handlaggning'
+          $ref: '#/components/schemas/HandlaggningUpdate'
       required:
         - handlaggning
 
@@ -322,9 +322,9 @@ components:
         - typ
         - data
 
-    Handlaggning:
+    HandlaggningUpdate:
       type: object
-      description: Handläggning, ärendeinstans
+      description: Uppdaterbar handläggning, ärendeinstans
       properties:
         id:
           type: string
@@ -367,7 +367,7 @@ components:
         - handlaggningspecifikationId
         - underlag
 
-    HandlaggningResponse:
+    Handlaggning:
       type: object
       description: Handläggning, ärendeinstans
       properties:
