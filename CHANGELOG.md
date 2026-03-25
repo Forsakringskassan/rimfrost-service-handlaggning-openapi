@@ -1,3 +1,9 @@
+## 1.3.25 (2026-03-25)
+
+### Bug Fixes
+
+-  renaming to Handlaggning and HandlaggningUpdate ([4d6cb](https://github.com/Forsakringskassan/rimfrost-service-handlaggning-openapi/commit/4d6cbbcc1c49817) Ulf Slunga)  
+
 ## 1.3.24 (2026-03-23)
 
 ### Bug Fixes
