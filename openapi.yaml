@@ -251,6 +251,8 @@ components:
           description: Lista av producerade resultat
           items:
             $ref: '#/components/schemas/ProduceratResultat'
+        beslut:
+            $ref: '#/components/schemas/Beslut'
       required:
         - id
         - version
@@ -518,3 +520,48 @@ components:
         - NEJ
         - FU
 
+    Beslut:
+      type: object
+      description: Beslut för yrkandet
+      nullable: true
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: Unikt ID för beslut
+        version:
+          type: integer
+          description: Specificerar version av beslutet
+        datum:
+          type: string
+          format: date-time
+          description: Tidpunkt för beslutet, enligt ISO 8601
+        beslutsfattare:
+          type: string
+          format: uuid
+          description: Beslutsfattarens individ-id
+        beslutsrader:
+          type: array
+          items:
+            $ref: '#/components/schemas/Beslutsrad'
+
+    Beslutsrad:
+      type: object
+      description: En beslutsrad i ett beslut
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: Unikt ID för beslut
+        version:
+          type: integer
+          description: Specificerar version av beslutet
+        beslutsTyp:
+          type: string
+          format: uuid
+        beslutsUtfall:
+          type: string
+          format: uuid
+        avslutsTyp:
+          type: string
+          format: uuid
