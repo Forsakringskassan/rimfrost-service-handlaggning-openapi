@@ -523,6 +523,7 @@ components:
     Beslut:
       type: object
       description: Beslut för yrkandet
+      nullable: true
       properties:
         id:
           type: string
