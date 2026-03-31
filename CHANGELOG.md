@@ -1,3 +1,10 @@
+## 1.3.26 (2026-03-31)
+
+### Bug Fixes
+
+-  nullable Beslut ([e4cf5](https://github.com/Forsakringskassan/rimfrost-service-handlaggning-openapi/commit/e4cf5b179d9e462) Ulf Slunga)  
+-  lägger till Beslut i PUT handlaggning ([39865](https://github.com/Forsakringskassan/rimfrost-service-handlaggning-openapi/commit/3986510ac2427f3) Ulf Slunga)  
+
 ## 1.3.25 (2026-03-25)
 
 ### Bug Fixes
