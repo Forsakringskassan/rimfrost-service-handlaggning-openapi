@@ -381,6 +381,7 @@ components:
           type: string
           description: BPMN processinstansens unika ID
           format: uuid
+          nullable: true
         skapadTS:
           type: string
           description: DateTime när handläggning skapades, enligt ISO 8601
