@@ -1,3 +1,10 @@
+## 1.3.28 (2026-04-02)
+
+### Bug Fixes
+
+-  remove processInstansId from required ([b6ddc](https://github.com/Forsakringskassan/rimfrost-service-handlaggning-openapi/commit/b6ddccb9fba12a3) Nils Elveros)  
+-  add nullable processinstansId ([f12f8](https://github.com/Forsakringskassan/rimfrost-service-handlaggning-openapi/commit/f12f81513204c37) Nils Elveros)  
+
 ## 1.3.27 (2026-04-02)
 
 ### Bug Fixes
