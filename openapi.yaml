@@ -173,16 +173,11 @@ components:
           type: string
           description: Yrkandets unika ID
           format: uuid
-        processInstansId:
-          type: string
-          description: BPMN processinstansens unika ID
-          format: uuid
         handlaggningspecifikationId:
           type: string
           format: uuid
       required:
         - yrkandeId
-        - processInstansId
         - handlaggningspecifikationId
 
     PostHandlaggningResponse:
@@ -386,6 +381,7 @@ components:
           type: string
           description: BPMN processinstansens unika ID
           format: uuid
+          nullable: true
         skapadTS:
           type: string
           description: DateTime när handläggning skapades, enligt ISO 8601
@@ -402,7 +398,6 @@ components:
         - id
         - version
         - yrkande
-        - processinstansId
         - skapadTS
         - handlaggningspecifikationId
 
