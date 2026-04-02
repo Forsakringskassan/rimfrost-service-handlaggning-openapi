@@ -173,16 +173,11 @@ components:
           type: string
           description: Yrkandets unika ID
           format: uuid
-        processInstansId:
-          type: string
-          description: BPMN processinstansens unika ID
-          format: uuid
         handlaggningspecifikationId:
           type: string
           format: uuid
       required:
         - yrkandeId
-        - processInstansId
         - handlaggningspecifikationId
 
     PostHandlaggningResponse:
@@ -544,6 +539,12 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Beslutsrad'
+      required:
+        - id
+        - version
+        - datum
+        - beslutsfattare
+        - beslutsrader
 
     Beslutsrad:
       type: object
@@ -565,3 +566,31 @@ components:
         avslutsTyp:
           type: string
           format: uuid
+        produceradeResultatRef:
+          type: array
+          description: Producerade resultat som beslutsraden är kopplat till
+          items:
+            $ref: '#/components/schemas/ProduceratResultatRef'
+      required:
+        - id
+        - version
+        - beslutsTyp
+        - beslutsUtfall
+        - avslutsTyp
+        - produceradeResultatRef
+
+    ProduceratResultatRef:
+      type: object
+      description: Referens till ett producerat resultat
+      properties:
+        id:
+          type: string
+          format: uuid
+          description: Unikt ID för producerat resultat
+        version:
+          type: integer
+          description: Specificerar version av producerade resultatet
+      required:
+        - id
+        - version
+
