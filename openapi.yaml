@@ -398,7 +398,6 @@ components:
         - id
         - version
         - yrkande
-        - processinstansId
         - skapadTS
         - handlaggningspecifikationId
 
