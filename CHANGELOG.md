@@ -1,3 +1,9 @@
+## 1.3.27 (2026-04-02)
+
+### Bug Fixes
+
+-  lägger till producerade resultat till beslutsrader. tar bort processInstansId från POST handlaggning. required på beslut och beslutsrader. ([bb857](https://github.com/Forsakringskassan/rimfrost-service-handlaggning-openapi/commit/bb85765246ef8ed) Ulf Slunga)  
+
 ## 1.3.26 (2026-03-31)
 
 ### Bug Fixes
