@@ -1,3 +1,9 @@
+## 1.3.29 (2026-04-08)
+
+### Bug Fixes
+
+-  Use IDs for reference data types ([d9dc5](https://github.com/Forsakringskassan/rimfrost-service-handlaggning-openapi/commit/d9dc5fd2d414f6f) Lars Persson)  
+
 ## 1.3.28 (2026-04-02)
 
 ### Bug Fixes
