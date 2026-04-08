@@ -108,8 +108,7 @@ components:
       properties:
         erbjudandeId:
           type: string
-          format: uuid
-          description: Vilket erbjudande yrkandet avser
+          description: Unikt ID som indentifierar vilket erbjudande yrkandet avser
         yrkandeFrom:
           type: string
           format: date-time
@@ -139,11 +138,16 @@ components:
         yrkandeFrom: "2025-01-01T00:00:00Z"
         yrkandeTom: "2025-01-02T00:00:00Z"
         individYrkandeRoller:
-          - individId: "58435904-c2b6-4b1f-a0ab-62f1839d8ff2"
+          - individ:
+              typId: "58435904-c2b6-4b1f-a0ab-62f1839d8ff2"
+              varde: "19901010-1234"
             yrkandeRollId: "58435904-c2b6-4b1f-a0ab-62f1839d8ff2"
         produceradeResultat:
-          - from: "2025-01-01T00:00:00Z"
+          - id: "80c9811d-e2bb-4165-9c87-58f67555da2b"
+            version: 1
+            from: "2025-01-01T00:00:00Z"
             tom: "2025-01-02T00:00:00Z"
+            yrkandestatus: "57600d42-1450-431b-9ee3-063681cb27f6"
             typ: "ERSATTNING"
             data: "{}"
 
@@ -219,13 +223,13 @@ components:
         erbjudandeId:
           type: string
           description: Erbjudandets unika ID
-          format: uuid
         yrkandedatum:
           type: string
           description: Datetime när yrkandet uppstod, enligt ISO 8601
           format: date-time
         yrkandestatus:
-          $ref: '#/components/schemas/Yrkandestatus'
+          type: string
+          description: Unikt ID som identifierar status för yrkandet
         yrkandeFrom:
           type: string
           format: date-time
@@ -235,7 +239,8 @@ components:
           format: date-time
           description: Yrkande till och med datum
         avsikt:
-          $ref: '#/components/schemas/Avsiktstyp'
+          type: string
+          description: Unikt ID som identifierar avsikt för yrkandet
         individYrkandeRoller:
           type: array
           description: Lista av personer involverade i yrkandet samt deras roll
@@ -260,25 +265,6 @@ components:
         - individYrkandeRoller
         - produceradeResultat
 
-    Yrkandestatus:
-      type: string
-      description: Yrkandestatus
-      enum:
-        - PLANERAT
-        - YRKAT
-        - UNDER_UTREDNING
-        - FASTSTALLT_UNDER_UTREDNING
-        - FASTSTALLT
-
-    Avsiktstyp:
-      type: string
-      description: Avsiktstyp
-      enum:
-        - NY
-        - ANDRING
-        - BORTTAG
-        - ATERTAGEN
-
     ProduceratResultat:
       type: object
       description: Producerat resultat
@@ -299,7 +285,8 @@ components:
           format: date-time
           description: Slutdatum/tid då resultatet gäller till, enligt ISO 8601
         yrkandestatus:
-          $ref: '#/components/schemas/Yrkandestatus'
+          type: string
+          description: Unikt ID som identifierar status för resultat
         avslagsanledning:
           type: string
           description: Orsak till avslag
@@ -318,6 +305,17 @@ components:
         - yrkandestatus
         - typ
         - data
+      example:
+        id: "b0faa3ef-2728-4448-9984-c53e8e0f4c65"
+        version: 1
+        from: "2025-01-01T00:00:00Z"
+        tom: "2025-01-02T00:00:00Z"
+        yrkandestatus: "bd6320bc-2431-4f60-862e-e9f0cead28ce"
+        avslaganledning: "Krav ej uppfyllda"
+        typ: "ERSATTNING"
+        data: "{}"
+
+
 
     HandlaggningUpdate:
       type: object
@@ -401,14 +399,6 @@ components:
         - skapadTS
         - handlaggningspecifikationId
 
-    UppgiftStatus:
-      type: string
-      description: Uppgiftens status
-      enum:
-        - PLANERAD
-        - TILLDELAD
-        - AVSLUTAD
-
     Uppgift:
       type: object
       description: Uppgift
@@ -435,9 +425,8 @@ components:
           description: Tidpunkt då uppgiften är planerad att utföras, enligt ISO 8601
           nullable: true
         utforarId:
-          type: string
+          $ref: '#/components/schemas/Idtyp'
           description: Utförarens ID
-          format: uuid
           nullable: true
         aktivitetId:
           type: string
@@ -446,14 +435,19 @@ components:
         uppgiftspecifikation:
           $ref: '#/components/schemas/UppgiftSpecifikation'
         uppgiftStatus:
-          $ref: '#/components/schemas/UppgiftStatus'
+          type: string
+          description: Unikt ID som identifierar status för uppgift
         FSSAinformation:
-          $ref: '#/components/schemas/FSSAinformation'
-
+          type: string
+          description: Unikt ID som identifierar FSSÄ-information
       required:
         - id
         - version
+        - skapadTs
+        - uppgiftspecifikation
         - uppgiftStatus
+        - aktivitetId
+        - FSSAinformation
 
     UppgiftSpecifikation:
       type: object
@@ -484,36 +478,19 @@ components:
         - version
         - data
 
-    FSSAinformation:
-      type: string
-      enum:
-        - HANDLAGGNING_PAGAR
-        - VANTAR_PA_INFO_FRAN_ANNAN_PART
-        - VANTAR_PA_INFO_FRAN_KUND
-
     IndividYrkandeRoll:
       type: object
       description: Representerar en individ tillsammans med dess roll
       properties:
-        individId:
-          type: string
-          format: uuid
-          description: Id till en individ
+        individ:
+          $ref: '#/components/schemas/Idtyp'
+          description: Unikt id till en individ
         yrkandeRollId:
           type: string
-          format: uuid
-          description: Id till en yrkande roll
+          description: Unikt id till en yrkande roll
       required:
-        - individId
+        - individ
         - yrkandeRollId
-
-    Beslutsutfall:
-      type: string
-      description: Beslutsutfall för ersättning
-      enum:
-        - JA
-        - NEJ
-        - FU
 
     Beslut:
       type: object
@@ -532,8 +509,7 @@ components:
           format: date-time
           description: Tidpunkt för beslutet, enligt ISO 8601
         beslutsfattare:
-          type: string
-          format: uuid
+          $ref: '#/components/schemas/Idtyp'
           description: Beslutsfattarens individ-id
         beslutsrader:
           type: array
@@ -553,19 +529,19 @@ components:
         id:
           type: string
           format: uuid
-          description: Unikt ID för beslut
+          description: Unikt ID för beslutsrad
         version:
           type: integer
-          description: Specificerar version av beslutet
+          description: Specificerar version av beslutsrad
         beslutsTyp:
           type: string
-          format: uuid
+          description: Unikt ID som identfierar typ av beslut för beslutsrad
         beslutsUtfall:
           type: string
-          format: uuid
+          description: Unikt ID som identifierar utfall för beslutsrad
         avslutsTyp:
           type: string
-          format: uuid
+          description: Unikt ID som idenfierar typ av avslut för beslutsrad
         produceradeResultatRef:
           type: array
           description: Producerade resultat som beslutsraden är kopplat till
@@ -594,3 +570,15 @@ components:
         - id
         - version
 
+    Idtyp:
+      type: object
+      properties:
+        typId:
+          type: string
+          description: Unikt ID som identifierar vilken typ av värde som anges
+        varde:
+            type: string
+            description: ID-värde som identifieras av typ
+      example:
+        typId: "4c34906c-03d9-425f-9a1a-062ef6eb88c7"
+        varde: "19901010-1234"
