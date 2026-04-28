@@ -1,3 +1,13 @@
+## 2.0.0 (2026-04-28)
+
+### Breaking changes
+
+-  release 1.0 ([fa88b](https://github.com/Forsakringskassan/rimfrost-service-handlaggning-openapi/commit/fa88b2a2eaefe2f) Lars Persson)  
+
+### Features
+
+-  release 1.0 ([fa88b](https://github.com/Forsakringskassan/rimfrost-service-handlaggning-openapi/commit/fa88b2a2eaefe2f) Lars Persson)  
+
 ## 1.3.29 (2026-04-08)
 
 ### Bug Fixes
