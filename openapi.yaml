@@ -437,6 +437,7 @@ components:
         uppgiftStatus:
           type: string
           description: Unikt ID som identifierar status för uppgift
+          nullable: true
         FSSAinformation:
           type: string
           description: Unikt ID som identifierar FSSÄ-information
