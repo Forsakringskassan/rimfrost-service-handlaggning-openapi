@@ -1,3 +1,9 @@
+## 2.0.1 (2026-05-12)
+
+### Bug Fixes
+
+-  Allow null value for uppgiftStatus field ([4735c](https://github.com/Forsakringskassan/rimfrost-service-handlaggning-openapi/commit/4735c4af362ed05) Lars Persson)  
+
 ## 2.0.0 (2026-04-28)
 
 ### Breaking changes
