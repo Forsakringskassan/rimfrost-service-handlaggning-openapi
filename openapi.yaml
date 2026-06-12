@@ -136,7 +136,7 @@ components:
         - yrkandeTom
         - individYrkandeRoller
         - produceradeResultat
-        - handlaggningspecificationId
+        - handlaggningspecifikationId
       example:
         erbjudandeId: "a3b9c7b8-1234-4567-89ab-123456789abc"
         yrkandeFrom: "2025-01-01T00:00:00Z"
