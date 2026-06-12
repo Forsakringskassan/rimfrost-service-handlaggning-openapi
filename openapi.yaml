@@ -127,12 +127,16 @@ components:
           description: Lista av producerade resultat
           items:
             $ref: '#/components/schemas/ProduceratResultat'
+        handlaggningspecifikationId:
+          type: string
+          format: uuid
       required:
         - erbjudandeId
         - yrkandeFrom
         - yrkandeTom
         - individYrkandeRoller
         - produceradeResultat
+        - handlaggningspecifikationId
       example:
         erbjudandeId: "a3b9c7b8-1234-4567-89ab-123456789abc"
         yrkandeFrom: "2025-01-01T00:00:00Z"
@@ -150,15 +154,16 @@ components:
             yrkandestatus: "57600d42-1450-431b-9ee3-063681cb27f6"
             typ: "ERSATTNING"
             data: "{}"
+        handlaggningspecifikationId: "4cc0aec3-752b-4590-8fc5-7986d01a426f"
 
     PostYrkandeResponse:
       type: object
       description: Svar vid skapande av ett nytt yrkande
       properties:
-        yrkande:
-          $ref: '#/components/schemas/Yrkande'
+        handlaggning:
+          $ref: '#/components/schemas/Handlaggning'
       required:
-        - yrkande
+        - handlaggning
 
     GetHandlaggningResponse:
       type: object
