@@ -1,3 +1,30 @@
+## 2.0.2 (2026-06-12)
+
+### Bug Fixes
+
+-  Bump version to fix release issues ([d7d72](https://github.com/Forsakringskassan/rimfrost-service-handlaggning-openapi/commit/d7d72e88bba8b01) Lars Persson)  
+-  Add handlaggningspecificationId to PostYrkandeRequest ([ad415](https://github.com/Forsakringskassan/rimfrost-service-handlaggning-openapi/commit/ad4157dbeeb257b) Lars Persson)  
+
+### Other changes
+
+**Bump version to fix release issue**
+
+
+[e40fd](https://github.com/Forsakringskassan/rimfrost-service-handlaggning-openapi/commit/e40fd091237043f) Lars Persson *2026-06-12 07:20:39*
+
+**Update openapi.yaml**
+
+* Co-authored-by: Ulf Slunga &lt;98820233+UlfSlunga-Sinetiq@users.noreply.github.com&gt; 
+
+[1fe57](https://github.com/Forsakringskassan/rimfrost-service-handlaggning-openapi/commit/1fe57127618f4d4) larpersso *2026-06-12 06:14:18*
+
+**Update openapi.yaml**
+
+* Co-authored-by: Ulf Slunga &lt;98820233+UlfSlunga-Sinetiq@users.noreply.github.com&gt; 
+
+[57eef](https://github.com/Forsakringskassan/rimfrost-service-handlaggning-openapi/commit/57eef446c7fc846) larpersso *2026-06-12 06:14:02*
+
+
 ## 2.0.1 (2026-05-12)
 
 ### Bug Fixes
