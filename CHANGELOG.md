@@ -1,3 +1,9 @@
+## 2.0.3 (2026-06-17)
+
+### Bug Fixes
+
+-  Remove yrkande and handlaggning POST operations ([4deb6](https://github.com/Forsakringskassan/rimfrost-service-handlaggning-openapi/commit/4deb607e8ce1ecc) Lars Persson)  
+
 ## 2.0.2 (2026-06-12)
 
 ### Bug Fixes
