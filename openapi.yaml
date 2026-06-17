@@ -5,48 +5,6 @@ info:
   description: API för att hantera handläggningar och yrkanden.
 
 paths:
-  /yrkande:
-    post:
-      tags: [ HandlaggningController ]
-      operationId: postYrkande
-      summary: Skapar ett nytt yrkande
-      description: Skapar ett nytt yrkande
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/PostYrkandeRequest'
-      responses:
-        '201':
-          description: Skapat yrkande OK
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/PostYrkandeResponse'
-
-  /handlaggning:
-    post:
-      tags: [ HandlaggningController ]
-      operationId: postHandlaggning
-      summary: Skapa en ny handläggning
-      description: Skapa en ny handläggning
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/PostHandlaggningRequest'
-      responses:
-        '201':
-          description: Handläggning skapat OK
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/PostHandlaggningResponse'
-        '400':
-          description: Bad request (t.ex. felaktigt yrkande)
-
   /handlaggning/{handlaggningId}:
     get:
       tags: [ HandlaggningController ]
@@ -102,96 +60,9 @@ paths:
 components:
   schemas:
 
-    PostYrkandeRequest:
-      type: object
-      description: Data som krävs för att skapa ett nytt yrkande
-      properties:
-        erbjudandeId:
-          type: string
-          description: Unikt ID som indentifierar vilket erbjudande yrkandet avser
-        yrkandeFrom:
-          type: string
-          format: date-time
-          description: Yrkande från och med datum
-        yrkandeTom:
-          type: string
-          format: date-time
-          description: Yrkande till och med datum
-        individYrkandeRoller:
-          type: array
-          description: Lista av personer involverade i yrkandet samt deras roll
-          items:
-            $ref: '#/components/schemas/IndividYrkandeRoll'
-        produceradeResultat:
-          type: array
-          description: Lista av producerade resultat
-          items:
-            $ref: '#/components/schemas/ProduceratResultat'
-        handlaggningspecifikationId:
-          type: string
-          format: uuid
-      required:
-        - erbjudandeId
-        - yrkandeFrom
-        - yrkandeTom
-        - individYrkandeRoller
-        - produceradeResultat
-        - handlaggningspecifikationId
-      example:
-        erbjudandeId: "a3b9c7b8-1234-4567-89ab-123456789abc"
-        yrkandeFrom: "2025-01-01T00:00:00Z"
-        yrkandeTom: "2025-01-02T00:00:00Z"
-        individYrkandeRoller:
-          - individ:
-              typId: "58435904-c2b6-4b1f-a0ab-62f1839d8ff2"
-              varde: "19901010-1234"
-            yrkandeRollId: "58435904-c2b6-4b1f-a0ab-62f1839d8ff2"
-        produceradeResultat:
-          - id: "80c9811d-e2bb-4165-9c87-58f67555da2b"
-            version: 1
-            from: "2025-01-01T00:00:00Z"
-            tom: "2025-01-02T00:00:00Z"
-            yrkandestatus: "57600d42-1450-431b-9ee3-063681cb27f6"
-            typ: "ERSATTNING"
-            data: "{}"
-        handlaggningspecifikationId: "4cc0aec3-752b-4590-8fc5-7986d01a426f"
-
-    PostYrkandeResponse:
-      type: object
-      description: Svar vid skapande av ett nytt yrkande
-      properties:
-        handlaggning:
-          $ref: '#/components/schemas/Handlaggning'
-      required:
-        - handlaggning
-
     GetHandlaggningResponse:
       type: object
       description: Svar vid hämtning av handläggning
-      properties:
-        handlaggning:
-          $ref: '#/components/schemas/Handlaggning'
-      required:
-        - handlaggning
-
-    PostHandlaggningRequest:
-      type: object
-      description: Skapa ny handläggning
-      properties:
-        yrkandeId:
-          type: string
-          description: Yrkandets unika ID
-          format: uuid
-        handlaggningspecifikationId:
-          type: string
-          format: uuid
-      required:
-        - yrkandeId
-        - handlaggningspecifikationId
-
-    PostHandlaggningResponse:
-      type: object
-      description: Svar vid skapande av ny handläggning
       properties:
         handlaggning:
           $ref: '#/components/schemas/Handlaggning'
@@ -319,8 +190,6 @@ components:
         avslaganledning: "Krav ej uppfyllda"
         typ: "ERSATTNING"
         data: "{}"
-
-
 
     HandlaggningUpdate:
       type: object
