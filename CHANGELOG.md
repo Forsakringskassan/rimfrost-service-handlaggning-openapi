@@ -1,3 +1,9 @@
+## 2.0.4 (2026-06-17)
+
+### Bug Fixes
+
+-  Support null value for uppgift and processinstansId on handlaggning update ([30ed2](https://github.com/Forsakringskassan/rimfrost-service-handlaggning-openapi/commit/30ed25d342a0e22) Lars Persson)  
+
 ## 2.0.3 (2026-06-17)
 
 ### Bug Fixes
