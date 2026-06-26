@@ -1,3 +1,9 @@
+## 2.0.5 (2026-06-26)
+
+### Bug Fixes
+
+-  Fix required status for a few fields ([a77b7](https://github.com/Forsakringskassan/rimfrost-service-handlaggning-openapi/commit/a77b7764f05e050) Lars Persson)  
+
 ## 2.0.4 (2026-06-17)
 
 ### Bug Fixes
