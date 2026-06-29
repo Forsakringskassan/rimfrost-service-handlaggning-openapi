@@ -1,3 +1,12 @@
+## 2.0.6 (2026-06-29)
+
+### Bug Fixes
+
+-  Remove required from uppgiftStatus field ([30dab](https://github.com/Forsakringskassan/rimfrost-service-handlaggning-openapi/commit/30dab07e356d79c) Lars Persson)  
+
+### Dependency updates
+
+- add renovate.json ([262fc](https://github.com/Forsakringskassan/rimfrost-service-handlaggning-openapi/commit/262fc6ffeef02aa) renovate[bot])  
 ## 2.0.5 (2026-06-26)
 
 ### Bug Fixes
