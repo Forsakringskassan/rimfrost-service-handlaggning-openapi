@@ -1,3 +1,20 @@
+## 2.0.7 (2026-09-15)
+
+### Bug Fixes
+
+-  Add 409 response code for PUT operation ([7284e](https://github.com/Forsakringskassan/rimfrost-service-handlaggning-openapi/commit/7284ebb8b6c5937) Lars Persson)  
+-  **deps**  update jackson monorepo to v2.22.2 ([554d7](https://github.com/Forsakringskassan/rimfrost-service-handlaggning-openapi/commit/554d7ebb7085a7d) renovate[bot])  
+-  **deps**  update dependency org.openapitools:jackson-databind-nullable to v0.2.11 ([251b8](https://github.com/Forsakringskassan/rimfrost-service-handlaggning-openapi/commit/251b8cb8fd75820) renovate[bot])  
+-  **deps**  update jackson monorepo ([52291](https://github.com/Forsakringskassan/rimfrost-service-handlaggning-openapi/commit/52291b3ba3a85b1) renovate[bot])  
+-  **deps**  update dependency org.openapitools:jackson-databind-nullable to v0.2.10 ([537db](https://github.com/Forsakringskassan/rimfrost-service-handlaggning-openapi/commit/537dba9190e65d3) renovate[bot])  
+-  Replace npm workflows with gradle workflows ([0474e](https://github.com/Forsakringskassan/rimfrost-service-handlaggning-openapi/commit/0474e7cb12568e1) Lars Persson)  
+
+### Dependency updates
+
+- update gradle to v9.7.1 ([af76b](https://github.com/Forsakringskassan/rimfrost-service-handlaggning-openapi/commit/af76bdddacd92bb) renovate[bot])  
+- pin forsakringskassan/.github action to d1349e6 ([57e00](https://github.com/Forsakringskassan/rimfrost-service-handlaggning-openapi/commit/57e005cfb4ae2ab) renovate[bot])  
+- update gradle to v9.7.0 ([78a7f](https://github.com/Forsakringskassan/rimfrost-service-handlaggning-openapi/commit/78a7f4bb3630ca4) renovate[bot])  
+- update gradle to v9.6.1 ([75286](https://github.com/Forsakringskassan/rimfrost-service-handlaggning-openapi/commit/75286284ede3157) renovate[bot])  
 ## 2.0.6 (2026-06-29)
 
 ### Bug Fixes
