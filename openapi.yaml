@@ -56,6 +56,8 @@ paths:
                 $ref: '#/components/schemas/PutHandlaggningResponse'
         '400':
           description: Bad request (t.ex. felaktigt handlaggningId)
+        '409':
+          description: Conflict (t.ex. version av objekt har inte steppats vid ändring)
 
 components:
   schemas:
