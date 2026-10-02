@@ -108,16 +108,11 @@ components:
           description: Lista av personer involverade i yrkandet samt deras roll
           items:
             $ref: '#/components/schemas/RollIYrkande'
-        sakfragor:
+        sakfragorStallningstaganden:
           type: array
-          description: Lista av sakfrågor i yrkandet
+          description: Lista av sakfrågor och ställningstaganden i yrkandet
           items:
-            $ref: '#/components/schemas/SakfragaIHandlaggning'
-        stallningstaganden:
-          type: array
-          description: Lista av ställningstaganden i yrkandet
-          items:
-            $ref: '#/components/schemas/StallningstagandeIHandlaggning'
+            $ref: '#/components/schemas/SakfragaStallningstagande'
         beslut:
           type: array
           description: Lista av beslut
@@ -133,13 +128,12 @@ components:
         - yrkandeTom
         - avsikt
         - rollerIYrkande
-        - sakfragor
-        - stallningstaganden
+        - sakfragorStallningstaganden
         - beslut
 
-    SakfragaIHandlaggning:
+    SakfragaStallningstagande:
       type: object
-      description: Sakfråga
+      description: Sakfråga eller Ställningstagande
       properties:
         id:
           type: string
@@ -151,25 +145,25 @@ components:
         from:
           type: string
           format: date-time
-          description: Startdatum/tid då sakfrågan gäller från, enligt ISO 8601
+          description: Startdatum/tid då sakfrågan/ställningstagande gäller från, enligt ISO 8601
         tom:
           type: string
           format: date-time
-          description: Slutdatum/tid då sakfrågan gäller till, enligt ISO 8601
+          description: Slutdatum/tid då sakfrågan/ställningstagande gäller till, enligt ISO 8601
         yrkandestatus:
           type: string
-          description: Unikt ID som identifierar status för sakfrågan
+          description: Unikt ID som identifierar status för sakfrågan/ställningstagande
         faststallsForYrkande:
           type: string
           format: uuid
           description: Unikt ID som identifierar yrkande
-        sakfragetypId:
+        objektTypId:
           type: string
           format: uuid
-          description: Unikt ID som identifierar sakfrågetypen
+          description: Unikt ID som identifierar vilken typ av sakfråga/ställningstagande det gäller
         data:
           type: string
-          description: Json data av den typ som sakfragetypId avser
+          description: Json data av den typ som objektTypId avser
       required:
         - id
         - version
@@ -177,50 +171,7 @@ components:
         - tom
         - yrkandestatus
         - faststallsForYrkande
-        - sakfragetypId
-        - data
-
-    StallningstagandeIHandlaggning:
-      type: object
-      description: Ställningstagande
-      properties:
-        id:
-          type: string
-          format: uuid
-          description: Unikt id
-        version:
-          type: integer
-          description: Objektets version
-        from:
-          type: string
-          format: date-time
-          description: Startdatum/tid då ställningstagande gäller från, enligt ISO 8601
-        tom:
-          type: string
-          format: date-time
-          description: Slutdatum/tid då ställningstagande gäller till, enligt ISO 8601
-        yrkandestatus:
-          type: string
-          description: Unikt ID som identifierar status för ställningstagande i handläggningen
-        faststallsForYrkande:
-          type: string
-          format: uuid
-          description: Unikt ID som identifierar yrkande
-        stallningstagandeId:
-          type: string
-          format: uuid
-          description: Unikt ID som identifierar ställningstagande
-        data:
-          type: string
-          description: Json data av den typ som ställningstagandeId pekar på
-      required:
-        - id
-        - version
-        - from
-        - tom
-        - yrkandestatus
-        - faststallsForYrkande
-        - stallningstagandeId
+        - objektTypId
         - data
 
     HandlaggningUpdate:
@@ -252,18 +203,16 @@ components:
           type: string
           description: Unikt ID som identifierar handläggningstyp
         handlaggningIdVarde:
-          type: string
+          type: [ string, 'null' ]
           description: Handläggningens Id värde
-          nullable: true
         skapadTS:
           type: string
           description: DateTime när handläggning skapades, enligt ISO 8601
           format: date-time
         avslutadTS:
-          type: string
+          type: [ string, 'null' ]
           description: DateTime när handläggning avslutades, enligt ISO 8601
           format: date-time
-          nullable: true
         handlaggningspecifikationId:
           type: string
           format: uuid
@@ -291,19 +240,18 @@ components:
           format: date-time
           description: Tidpunkt då uppgiften skapades, enligt ISO 8601
         utfordTS:
-          type: string
+          type: [ string, 'null' ]
           format: date-time
           description: Tidpunkt då uppgiften utfördes, enligt ISO 8601
-          nullable: true
         planeradTillTS:
-          type: string
+          type: [ string, 'null' ]
           format: date-time
           description: Tidpunkt då uppgiften är planerad att utföras, enligt ISO 8601
-          nullable: true
         utforare:
-          $ref: '#/components/schemas/Idtyp'
           description: Utförarens ID
-          nullable: true
+          anyOf:
+            - $ref: '#/components/schemas/Idtyp'
+            - type: 'null'
         aktivitetId:
           type: string
           description: Aktivitetens Id
@@ -311,9 +259,8 @@ components:
         uppgiftspecifikation:
           $ref: '#/components/schemas/UppgiftSpecifikation'
         uppgiftStatus:
-          type: string
+          type: [ string, 'null' ]
           description: Unikt ID som identifierar status för uppgift
-          nullable: true
         FSSAinformation:
           type: string
           description: Unikt ID som identifierar FSSÄ-information
@@ -466,9 +413,9 @@ components:
         avslutsTyp:
           type: string
           description: Unikt ID som idenfierar typ av avslut för beslutsrad
-        sakfragaStallningstaganden:
+        sakfragorStallningstaganden:
           type: array
-          description: Lista av ID som identifierar en sakfråga eller ställningstagande
+          description: Lista av ID som identifierar SakfragaStallningstagande
           items:
             $ref: '#/components/schemas/SakfragaStallningstagandeRef'
       required:
@@ -477,7 +424,7 @@ components:
         - beslutsTyp
         - beslutsUtfall
         - avslutsTyp
-        - sakfragaStallningstaganden
+        - sakfragorStallningstaganden
 
     SakfragaStallningstagandeRef:
       type: object
@@ -501,11 +448,11 @@ components:
           type: string
           description: Unikt ID som identifierar vilken typ av värde som anges
         varde:
-            type: string
-            description: ID-värde som identifieras av typ
+          type: string
+          description: ID-värde som identifieras av typ
       required:
         - typId
         - varde
-      example:
-        typId: "4c34906c-03d9-425f-9a1a-062ef6eb88c7"
-        varde: "19901010-1234"
+      examples:
+        - typId: "4c34906c-03d9-425f-9a1a-062ef6eb88c7"
+          varde: "19901010-1234"
