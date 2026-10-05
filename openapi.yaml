@@ -141,7 +141,6 @@ components:
           description: Unikt id
         objektTypId:
           type: string
-          format: uuid
           description: Unikt ID som identifierar vilken typ av sakfråga/ställningstagande det gäller
         data:
           type: string
