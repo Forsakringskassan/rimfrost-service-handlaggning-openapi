@@ -112,7 +112,7 @@ components:
           type: array
           description: Lista av sakfrågor och ställningstaganden i yrkandet
           items:
-            $ref: '#/components/schemas/SakfragaStallningstagande'
+            $ref: '#/components/schemas/SakfragaStallningstagandeContainer'
         beslut:
           type: array
           description: Lista av beslut
@@ -131,32 +131,14 @@ components:
         - sakfragorStallningstaganden
         - beslut
 
-    SakfragaStallningstagande:
+    SakfragaStallningstagandeContainer:
       type: object
-      description: Sakfråga eller Ställningstagande
+      description: Container för sakfråga eller ställningstagande
       properties:
         id:
           type: string
           format: uuid
           description: Unikt id
-        version:
-          type: integer
-          description: Objektets version
-        from:
-          type: string
-          format: date-time
-          description: Startdatum/tid då sakfrågan/ställningstagande gäller från, enligt ISO 8601
-        tom:
-          type: string
-          format: date-time
-          description: Slutdatum/tid då sakfrågan/ställningstagande gäller till, enligt ISO 8601
-        yrkandestatus:
-          type: string
-          description: Unikt ID som identifierar status för sakfrågan/ställningstagande
-        faststallsForYrkande:
-          type: string
-          format: uuid
-          description: Unikt ID som identifierar yrkande
         objektTypId:
           type: string
           format: uuid
@@ -166,11 +148,6 @@ components:
           description: Json data av den typ som objektTypId avser
       required:
         - id
-        - version
-        - from
-        - tom
-        - yrkandestatus
-        - faststallsForYrkande
         - objektTypId
         - data
 
@@ -415,7 +392,7 @@ components:
           description: Unikt ID som idenfierar typ av avslut för beslutsrad
         sakfragorStallningstaganden:
           type: array
-          description: Lista av ID som identifierar SakfragaStallningstagande
+          description: Lista av ID och version som identifierar SakfragaStallningstagande
           items:
             $ref: '#/components/schemas/SakfragaStallningstagandeRef'
       required:
