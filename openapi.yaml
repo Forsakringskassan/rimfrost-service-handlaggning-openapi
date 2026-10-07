@@ -237,11 +237,16 @@ components:
         uppgiftStatus:
           type: [ string, 'null' ]
           description: Unikt ID som identifierar status för uppgift
+        kommentar:
+          type: [ string, 'null' ]
+          description: Kommentar gällande uppgiften
         FSSAinformation:
           type: string
           description: Unikt ID som identifierar FSSÄ-information
         regelutfall:
-          $ref: '#/components/schemas/Regelutfall'
+          anyOf:
+            - $ref: '#/components/schemas/Regelutfall'
+            - type: 'null'
         handlaggningId:
           type: string
           format: uuid
