@@ -157,10 +157,11 @@ components:
         handlaggning:
           $ref: '#/components/schemas/Handlaggning'
         uppgift:
-          $ref: '#/components/schemas/Uppgift'
+          anyOf:
+            - $ref: '#/components/schemas/Uppgift'
+            - type: 'null'
       required:
         - handlaggning
-        - uppgift
 
     Handlaggning:
       type: object
