@@ -247,10 +247,6 @@ components:
           anyOf:
             - $ref: '#/components/schemas/Regelutfall'
             - type: 'null'
-        handlaggningId:
-          type: string
-          format: uuid
-          description: Unikt ID som identifierar handläggningen
         underlag:
           type: array
           description: Ett eller flera underlag som uppgiften använder sig av
