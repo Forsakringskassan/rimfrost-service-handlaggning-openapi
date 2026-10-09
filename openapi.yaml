@@ -252,12 +252,12 @@ components:
           type: array
           description: Ett eller flera underlag som uppgiften använder sig av
           items:
-            $ref: '#/components/schemas/Underlag'
+            $ref: '#/components/schemas/Uppgiftsdata'
         resultat:
           type: array
           description: Ett eller flera resultat som uppgiften producerat
           items:
-            $ref: '#/components/schemas/Uppgiftsdata'
+            $ref: '#/components/schemas/Uppgiftsdatakoppling'
       required:
         - id
         - version
@@ -265,7 +265,6 @@ components:
         - uppgiftspecifikation
         - aktivitetId
         - FSSAinformation
-        - handlaggningId
 
     Regelutfall:
       type: object
@@ -289,33 +288,60 @@ components:
         - version
 
     Uppgiftsdata:
-      type: object
-      properties:
-        informationsobjektId:
-          type: string
-          description: Unikt ID som identifierar ett informationsobjekt
-        version:
-          type: integer
-          description: Specificerar vilken version av informationsobjekt det är
-      required:
-        - informationsobjektId
-        - version
+      description: Uppgiftsdata - antingen som en koppling till ett informationsobjekt eller som en kopia med tillhörande data
+      oneOf:
+        - $ref: '#/components/schemas/Uppgiftsdatakoppling'
+        - $ref: '#/components/schemas/Uppgiftsdatakopia'
+      discriminator:
+        propertyName: typ
+        mapping:
+          KOPPLING: '#/components/schemas/Uppgiftsdatakoppling'
+          KOPIA: '#/components/schemas/Uppgiftsdatakopia'
 
-    Underlag:
+    Uppgiftsdatakoppling:
       type: object
+      description: Referens till en specifik version av ett informationsobjekt
       properties:
         typ:
           type: string
-          description: Specificerar vilken typ av underlag det är
-        version:
-          type: integer
-          description: Specificerar vilken version av underlags typ det är
-        data:
+          const: KOPPLING
+          description: Specificerar vilken typ av uppgiftsdata det är
+        informationsobjektId:
           type: string
-          description: All data i underlaget i formatet JSON
+          description: Unikt ID som identifierar ett informationsobjekt
+        informationsobjektversion:
+          type: integer
+          description: Specificerar vilken version av informationsobjekt det är
       required:
         - typ
-        - version
+        - informationsobjektId
+        - informationsobjektversion
+
+    Uppgiftsdatakopia:
+      type: object
+      description: Kopia av innehållet i en specifik version av ett informationsobjekt
+      properties:
+        typ:
+          type: string
+          const: KOPIA
+          description: Specificerar vilken typ av uppgiftsdata det är
+        informationsobjektId:
+          type: string
+          description: Unikt ID som identifierar ett informationsobjekt
+        informationsobjektversion:
+          type: integer
+          description: Specificerar vilken version av informationsobjekt det är
+        informationsobjekttyp:
+          type: string
+          description: Specificerar vilken typ av informationsobjekt det är
+        data:
+          type: string
+          description: All data i informationsobjektet i formatet JSON
+      required:
+        - typ
+        - informationsobjektId
+        - informationsobjektversion
+        - informationsobjekttyp
         - data
 
     RollIYrkande:
