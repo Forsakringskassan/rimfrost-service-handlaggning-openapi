@@ -1,4 +1,4 @@
-openapi: 3.1.0
+openapi: 3.0.3
 info:
   title: Handläggning API
   version: 1.0.0
@@ -46,14 +46,14 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/PutHandlaggningRequest'
+              $ref: '#/components/schemas/HandlaggningUpdate'
       responses:
         '200':
           description: Handläggning uppdaterad OK
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/PutHandlaggningResponse'
+                $ref: '#/components/schemas/HandlaggningUpdate'
         '400':
           description: Bad request (t.ex. felaktigt handlaggningId)
         '409':
@@ -71,24 +71,6 @@ components:
       required:
         - handlaggning
 
-    PutHandlaggningRequest:
-      type: object
-      description: Uppdatera handläggning
-      properties:
-        handlaggning:
-          $ref: '#/components/schemas/HandlaggningUpdate'
-      required:
-        - handlaggning
-
-    PutHandlaggningResponse:
-      type: object
-      description: Svar vid uppdatering av handläggning
-      properties:
-        handlaggning:
-          $ref: '#/components/schemas/HandlaggningUpdate'
-      required:
-        - handlaggning
-
     Yrkande:
       type: object
       description: Yrkande
@@ -100,9 +82,9 @@ components:
         version:
           type: integer
           description: Yrkandets version
-        erbjudandeId:
+        ingangtypId:
           type: string
-          description: Erbjudandets unika ID
+          description: Ingångtypens unika ID
         yrkandedatum:
           type: string
           description: Datetime när yrkandet uppstod, enligt ISO 8601
@@ -121,125 +103,66 @@ components:
         avsikt:
           type: string
           description: Unikt ID som identifierar avsikt för yrkandet
-        individYrkandeRoller:
+        rollerIYrkande:
           type: array
           description: Lista av personer involverade i yrkandet samt deras roll
           items:
-            $ref: '#/components/schemas/IndividYrkandeRoll'
-        produceradeResultat:
+            $ref: '#/components/schemas/RollIYrkande'
+        sakfragorStallningstaganden:
           type: array
-          description: Lista av producerade resultat
+          description: Lista av sakfrågor och ställningstaganden i yrkandet
           items:
-            $ref: '#/components/schemas/ProduceratResultat'
+            $ref: '#/components/schemas/SakfragaStallningstagandeContainer'
         beslut:
+          type: array
+          description: Lista av beslut
+          items:
             $ref: '#/components/schemas/Beslut'
       required:
         - id
         - version
-        - erbjudandeId
+        - ingangtypId
         - yrkandedatum
         - yrkandestatus
         - yrkandeFrom
         - yrkandeTom
         - avsikt
-        - individYrkandeRoller
-        - produceradeResultat
+        - rollerIYrkande
+        - sakfragorStallningstaganden
+        - beslut
 
-    ProduceratResultat:
+    SakfragaStallningstagandeContainer:
       type: object
-      description: Producerat resultat
+      description: Container för sakfråga eller ställningstagande
       properties:
         id:
           type: string
           format: uuid
-          description: Producerade resultatets unika ID
-        version:
-          type: integer
-          description: Version av producerat resultat
-        from:
+          description: Unikt id
+        objektTypId:
           type: string
-          format: date-time
-          description: Startdatum/tid då resultatet gäller från, enligt ISO 8601
-        tom:
-          type: string
-          format: date-time
-          description: Slutdatum/tid då resultatet gäller till, enligt ISO 8601
-        yrkandestatus:
-          type: string
-          description: Unikt ID som identifierar status för resultat
-        avslagsanledning:
-          type: string
-          description: Orsak till avslag
-          nullable: true
-        typ:
-          type: string
-          description: Specificerar vilket typ av resultat objekt
+          description: Unikt ID som identifierar vilken typ av sakfråga/ställningstagande det gäller
         data:
           type: string
-          description: Json data av den typ som har angetts
+          description: Json data av den typ som objektTypId avser
       required:
         - id
-        - version
-        - from
-        - tom
-        - yrkandestatus
-        - typ
+        - objektTypId
         - data
-      example:
-        id: "b0faa3ef-2728-4448-9984-c53e8e0f4c65"
-        version: 1
-        from: "2025-01-01T00:00:00Z"
-        tom: "2025-01-02T00:00:00Z"
-        yrkandestatus: "bd6320bc-2431-4f60-862e-e9f0cead28ce"
-        avslaganledning: "Krav ej uppfyllda"
-        typ: "ERSATTNING"
-        data: "{}"
 
     HandlaggningUpdate:
       type: object
       description: Uppdaterbar handläggning, ärendeinstans
       properties:
-        id:
-          type: string
-          description: Handläggningens unika ID
-          format: uuid
-        version:
-          type: integer
-          description: Handläggningens version
-        yrkande:
-          $ref: '#/components/schemas/Yrkande'
-        processinstansId:
-          type: string
-          description: BPMN processinstansens unika ID
-          format: uuid
-          nullable: true
-        skapadTS:
-          type: string
-          description: DateTime när handläggning skapades, enligt ISO 8601
-          format: date-time
-        avslutadTS:
-          type: string
-          description: DateTime när handläggning avslutades, enligt ISO 8601
-          format: date-time
-          nullable: true
-        handlaggningspecifikationId:
-          type: string
-          format: uuid
-        underlag:
-          type: array
-          description: Ett eller flera underlag som handläggningen använder sig av
-          items:
-            $ref: '#/components/schemas/Underlag'
+        handlaggning:
+          $ref: '#/components/schemas/Handlaggning'
         uppgift:
-          $ref: '#/components/schemas/Uppgift'
+          type: object
           nullable: true
+          allOf:
+            - $ref: '#/components/schemas/Uppgift'
       required:
-        - id
-        - version
-        - yrkande
-        - skapadTS
-        - handlaggningspecifikationId
-        - underlag
+        - handlaggning
 
     Handlaggning:
       type: object
@@ -254,20 +177,22 @@ components:
           description: Handläggningens version
         yrkande:
           $ref: '#/components/schemas/Yrkande'
-        processinstansId:
+        handlaggningIdTyp:
           type: string
-          description: BPMN processinstansens unika ID
-          format: uuid
+          description: Unikt ID som identifierar handläggningstyp
+        handlaggningIdVarde:
+          type: string
           nullable: true
+          description: Handläggningens Id värde
         skapadTS:
           type: string
           description: DateTime när handläggning skapades, enligt ISO 8601
           format: date-time
         avslutadTS:
           type: string
+          nullable: true
           description: DateTime när handläggning avslutades, enligt ISO 8601
           format: date-time
-          nullable: true
         handlaggningspecifikationId:
           type: string
           format: uuid
@@ -277,6 +202,7 @@ components:
         - yrkande
         - skapadTS
         - handlaggningspecifikationId
+        - handlaggningIdTyp
 
     Uppgift:
       type: object
@@ -289,24 +215,26 @@ components:
         version:
           type: integer
           description: Uppgiftens version
-        skapadTs:
+        skapadTS:
           type: string
           format: date-time
           description: Tidpunkt då uppgiften skapades, enligt ISO 8601
-        utfordTs:
+        utfordTS:
           type: string
+          nullable: true
           format: date-time
           description: Tidpunkt då uppgiften utfördes, enligt ISO 8601
-          nullable: true
-        planeradTs:
+        planeradTillTS:
           type: string
+          nullable: true
           format: date-time
           description: Tidpunkt då uppgiften är planerad att utföras, enligt ISO 8601
-          nullable: true
-        utforarId:
-          $ref: '#/components/schemas/Idtyp'
+        utforare:
           description: Utförarens ID
+          type: object
           nullable: true
+          allOf:
+            - $ref: '#/components/schemas/Idtyp'
         aktivitetId:
           type: string
           description: Aktivitetens Id
@@ -315,18 +243,46 @@ components:
           $ref: '#/components/schemas/UppgiftSpecifikation'
         uppgiftStatus:
           type: string
-          description: Unikt ID som identifierar status för uppgift
           nullable: true
+          description: Unikt ID som identifierar status för uppgift
+        kommentar:
+          type: string
+          nullable: true
+          description: Kommentar gällande uppgiften
         FSSAinformation:
           type: string
           description: Unikt ID som identifierar FSSÄ-information
+        regelutfall:
+          type: object
+          nullable: true
+          allOf:
+            - $ref: '#/components/schemas/Regelutfall'
+        underlag:
+          type: array
+          description: Ett eller flera underlag som uppgiften använder sig av
+          items:
+            $ref: '#/components/schemas/Uppgiftsdata'
+        resultat:
+          type: array
+          description: Ett eller flera resultat som uppgiften producerat (endast KOPPLING)
+          items:
+            $ref: '#/components/schemas/Uppgiftsdata'
       required:
         - id
         - version
-        - skapadTs
+        - skapadTS
         - uppgiftspecifikation
         - aktivitetId
         - FSSAinformation
+
+    Regelutfall:
+      type: object
+      properties:
+        varde:
+          type: string
+          description: Värde av regelutfall
+      required:
+        - varde
 
     UppgiftSpecifikation:
       type: object
@@ -340,41 +296,79 @@ components:
         - id
         - version
 
-    Underlag:
+    Uppgiftsdata:
       type: object
+      description: Uppgiftsdata - antingen som en koppling till ett informationsobjekt eller som en kopia med tillhörande data
       properties:
         typ:
           type: string
-          description: Specificerar vilken typ av underlag det är
-        version:
-          type: integer
-          description: Specificerar vilken version av underlags typ det är
-        data:
+          enum: [ KOPPLING, KOPIA ]
+          description: Specificerar vilken typ av uppgiftsdata det är
+        informationsobjektId:
           type: string
-          description: All data i underlaget i formatet JSON
+          description: Unikt ID som identifierar ett informationsobjekt
+        informationsobjektversion:
+          type: integer
+          description: Specificerar vilken version av informationsobjekt det är
       required:
         - typ
-        - version
-        - data
+        - informationsobjektId
+        - informationsobjektversion
+      discriminator:
+        propertyName: typ
+        mapping:
+          KOPPLING: '#/components/schemas/Uppgiftsdatakoppling'
+          KOPIA: '#/components/schemas/Uppgiftsdatakopia'
 
-    IndividYrkandeRoll:
+    Uppgiftsdatakoppling:
+      description: Referens till en specifik version av ett informationsobjekt
+      allOf:
+        - $ref: '#/components/schemas/Uppgiftsdata'
+
+    Uppgiftsdatakopia:
+      description: Kopia av innehållet i en specifik version av ett informationsobjekt
+      allOf:
+        - $ref: '#/components/schemas/Uppgiftsdata'
+        - type: object
+          properties:
+            informationsobjekttyp:
+              type: string
+              description: Specificerar vilken typ av informationsobjekt det är
+            data:
+              type: string
+              description: All data i informationsobjektet i formatet JSON
+          required:
+            - informationsobjekttyp
+            - data
+
+    RollIYrkande:
       type: object
       description: Representerar en individ tillsammans med dess roll
       properties:
+        id:
+          type: string
+          format: uuid
+          description: Unikt id för denna individ och roll kopplat till ett yrkande
         individ:
-          $ref: '#/components/schemas/Idtyp'
           description: Unikt id till en individ
+          allOf:
+            - $ref: '#/components/schemas/Idtyp'
         yrkandeRollId:
           type: string
           description: Unikt id till en yrkande roll
+        avserYrkande:
+          type: string
+          format: uuid
+          description: Unikt id som identifierar vilket yrkande denna RollIYrkande avser
       required:
+        - id
         - individ
         - yrkandeRollId
+        - avserYrkande
 
     Beslut:
       type: object
       description: Beslut för yrkandet
-      nullable: true
       properties:
         id:
           type: string
@@ -388,8 +382,9 @@ components:
           format: date-time
           description: Tidpunkt för beslutet, enligt ISO 8601
         beslutsfattare:
-          $ref: '#/components/schemas/Idtyp'
           description: Beslutsfattarens individ-id
+          allOf:
+            - $ref: '#/components/schemas/Idtyp'
         beslutsrader:
           type: array
           items:
@@ -414,37 +409,37 @@ components:
           description: Specificerar version av beslutsrad
         beslutsTyp:
           type: string
-          description: Unikt ID som identfierar typ av beslut för beslutsrad
+          description: Unikt ID som identifierar typ av beslut för beslutsrad
         beslutsUtfall:
           type: string
           description: Unikt ID som identifierar utfall för beslutsrad
         avslutsTyp:
           type: string
-          description: Unikt ID som idenfierar typ av avslut för beslutsrad
-        produceradeResultatRef:
+          description: Unikt ID som identifierar typ av avslut för beslutsrad
+        sakfragorStallningstaganden:
           type: array
-          description: Producerade resultat som beslutsraden är kopplat till
+          description: Lista av ID och version som identifierar SakfragaStallningstagande
           items:
-            $ref: '#/components/schemas/ProduceratResultatRef'
+            $ref: '#/components/schemas/SakfragaStallningstagandeRef'
       required:
         - id
         - version
         - beslutsTyp
         - beslutsUtfall
         - avslutsTyp
-        - produceradeResultatRef
+        - sakfragorStallningstaganden
 
-    ProduceratResultatRef:
+    SakfragaStallningstagandeRef:
       type: object
-      description: Referens till ett producerat resultat
+      description: Referens till en sakfråga eller ställningstagande
       properties:
         id:
           type: string
           format: uuid
-          description: Unikt ID för producerat resultat
+          description: Unikt ID för sakfrågan eller ställningstagande
         version:
           type: integer
-          description: Specificerar version av producerade resultatet
+          description: Specificerar version av sakfrågan eller ställningstagande
       required:
         - id
         - version
@@ -456,8 +451,8 @@ components:
           type: string
           description: Unikt ID som identifierar vilken typ av värde som anges
         varde:
-            type: string
-            description: ID-värde som identifieras av typ
+          type: string
+          description: ID-värde som identifieras av typ
       required:
         - typId
         - varde
