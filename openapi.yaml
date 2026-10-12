@@ -266,7 +266,7 @@ components:
           type: array
           description: Ett eller flera resultat som uppgiften producerat (endast KOPPLING)
           items:
-            $ref: '#/components/schemas/Uppgiftsdata'
+            $ref: '#/components/schemas/Uppgiftsdatakoppling'
       required:
         - id
         - version
@@ -304,16 +304,8 @@ components:
           type: string
           enum: [ KOPPLING, KOPIA ]
           description: Specificerar vilken typ av uppgiftsdata det är
-        informationsobjektId:
-          type: string
-          description: Unikt ID som identifierar ett informationsobjekt
-        informationsobjektversion:
-          type: integer
-          description: Specificerar vilken version av informationsobjekt det är
       required:
         - typ
-        - informationsobjektId
-        - informationsobjektversion
       discriminator:
         propertyName: typ
         mapping:
@@ -324,9 +316,20 @@ components:
       description: Referens till en specifik version av ett informationsobjekt
       allOf:
         - $ref: '#/components/schemas/Uppgiftsdata'
+        - type: object
+          properties:
+            informationsobjektId:
+              type: string
+              description: Unikt ID som identifierar ett informationsobjekt
+            informationsobjektversion:
+              type: integer
+              description: Specificerar vilken version av informationsobjekt det är
+          required:
+            - informationsobjektId
+            - informationsobjektversion
 
     Uppgiftsdatakopia:
-      description: Kopia av innehållet i en specifik version av ett informationsobjekt
+      description: Kopia av ett informationsobjekt som använts i uppgiften.
       allOf:
         - $ref: '#/components/schemas/Uppgiftsdata'
         - type: object
