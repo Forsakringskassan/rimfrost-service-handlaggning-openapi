@@ -36,6 +36,12 @@ project("rimfrost-service-handlaggning-openapi-jaxrs-spec",{
 		generatorName.set("jaxrs-spec")
 	}
 
+	// Override för diskriminatorn: EXISTING_PROPERTY i stället för PROPERTY, annars skrivs "typ" två gånger
+	// och List<Uppgiftsdatakoppling> serialiseras med klassnamnet som typ-värde.
+	tasks.named("generateJarApi") {
+		templateDir.set("${rootDir}/templates/jaxrs-spec")
+	}
+
 	dependencies {
 		compileOnly 'jakarta.ws.rs:jakarta.ws.rs-api:4.0.0'
 		compileOnly 'jakarta.annotation:jakarta.annotation-api:3.0.0'
