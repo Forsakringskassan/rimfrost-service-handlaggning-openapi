@@ -1,3 +1,9 @@
+## 2.1.1 (2026-10-27)
+
+### Bug Fixes
+
+-  use 9.7.1 gradle ([8189a](https://github.com/Forsakringskassan/rimfrost-service-handlaggning-openapi/commit/8189a8740107b55) Nils Elveros)  
+
 ## 2.0.7 (2026-09-15)
 
 ### Bug Fixes
